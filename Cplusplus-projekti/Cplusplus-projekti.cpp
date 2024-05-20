@@ -1,20 +1,28 @@
 // Cplusplus-projekti.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
+/* Yksinkertainen varastonhallintajärjestelmä:
+* - tavaroiden lainaus ja palautus, 
+* - luokat: tavara, jäsen
+* - periytyminen: tavaroiden eri kategoriat
+* - funktiot: lisää, lainaa ja palauta tavara sekä listaa tavarat
+* - standardi C++ -kirjastot: vector, string, iostream, fstream, 
+* - komentokehoterajapinta toimii eri yllä mainittuihin operaatioihin
+* - README: ohje käyttöön sekä tarvittaessa ohje VS Community 2022 asennukseen
+*/
+
 #include <iostream>
+#include "Item.h"
+#include "Items.h"
+
+
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    Items items = Items();
+    items.listItems();
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
