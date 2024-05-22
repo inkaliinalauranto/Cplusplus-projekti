@@ -84,15 +84,8 @@ void Items::removeItem(string id)
 
 	itemsFileForReading2.close();
 
-	ofstream itemsFileForWriting = ofstream("items_file.txt");
-
-	if (itemsFileForWriting.fail())
-	{
-		cout << "Ohjelmassa tapahtui virhetilanne - tiedostoon ei voi kirjoittaa." << endl;
-	}
 
 	// Varsinainen poisto:
-
 	int rowsSize = 0;
 
 	if (!rows.empty())
@@ -117,15 +110,16 @@ void Items::removeItem(string id)
 		{
 			if (rows[i] == id)
 			{
-				cout << "Poistettavat indeksit: ";
+				//cout << "Poistettavat indeksit: ";
 				firstRemovableIndex = i - 1;
 				secondRemovableIndex = i;
 				thirdRemovableIndex = i + 1;
 				fourthRemovableIndex = i + 2;
-				cout << firstRemovableIndex << ", ";
-				cout << secondRemovableIndex << ", ";
-				cout << thirdRemovableIndex << ", ";
-				cout << fourthRemovableIndex << endl;
+				//cout << firstRemovableIndex << ", ";
+				//cout << secondRemovableIndex << ", ";
+				//cout << thirdRemovableIndex << ", ";
+				//cout << fourthRemovableIndex << endl;
+				isIdInFile = true;
 			}
 		}
 
@@ -134,10 +128,6 @@ void Items::removeItem(string id)
 			if (idx != firstRemovableIndex && idx != secondRemovableIndex && idx != thirdRemovableIndex && idx != fourthRemovableIndex)
 			{
 				itemsFileForWriting2 << rows[idx] << endl;
-			}
-			else
-			{
-				isIdInFile = true;
 			}
 		}
 	}
@@ -150,7 +140,7 @@ void Items::removeItem(string id)
 
 	if (!isIdInFile)
 	{
-		cout << "Tavaraa syöttämälläsi tunnuksella ei ole järjestelmässä." << endl;
+		cout << "Tavaraa syöttämälläsi tunnuksella ei löydy järjestelmästä." << endl;
 	}
 }
 
@@ -212,15 +202,78 @@ void Items::listItems()
 }
 
 
-void Items::rentItem(int id, string name)
+void Items::rentItem(string id)
 {
-	//for (int i = 0; i < 3; i++)
-	//{
-	//	if (this->items[i].getId() == id || this->items[i].getName() == name)
-	//	{
+	string row;
+	vector<string> rows;
+	bool isIdInFile = false;
 
-	//		items[i].setRentalState(true);
-	//		cout << "Olet vuokrannut tavaran " << this->items[i].getName() << endl;
-	//	}
-	//}
+	ifstream itemsFileForReading = ifstream("items_file.txt");
+
+	if (itemsFileForReading.good())
+	{
+		while (getline(itemsFileForReading, row))
+		{
+			rows.push_back(row);
+		}
+	}
+	else
+	{
+		cout << "Ohjelmassa tapahtui virhetilanne: tiedostoa ei ole olemassa." << endl;
+	}
+
+	itemsFileForReading.close();
+
+	int rowsSize = 0;
+	if (!rows.empty())
+	{
+		rowsSize = (int)rows.size();
+	}
+
+	int IndexOfValueToBeChanged = rowsSize;
+
+	// Varsinainen varaaminen:
+	ofstream itemsFileForWriting = ofstream("items_file.txt");
+
+	if (itemsFileForWriting.fail())
+	{
+		cout << "Ohjelmassa tapahtui virhetilanne - tiedostoon ei voi kirjoittaa." << endl;
+	}
+	else if (rows.size() >= 4 && rows.size() % 4 == 0)
+	{
+		for (int i = 1; i < rows.size(); i += 4)
+		{
+			if (rows[i] == id)
+			{
+				IndexOfValueToBeChanged = i + 2;
+				isIdInFile = true;
+			}
+		}
+
+		for (int idx = 0; idx < rows.size(); idx++)
+		{
+			if (idx == IndexOfValueToBeChanged)
+			{
+				if ((bool)stoi(rows[idx]) == true)
+				{
+					cout << "Tavara on jo varattu, eikä sitä voi varata." << endl;
+				}
+				else
+				{
+					rows[idx] = to_string(true);
+				}
+			}
+			itemsFileForWriting << rows[idx] << endl;
+		}
+	}
+	else
+	{
+		cout << "Tiedoston on tyhjä tai siinä olevat tiedot ovat puutteellisia." << endl;
+	}
+
+	itemsFileForWriting.close();
+	if (!isIdInFile)
+	{
+		cout << "Tavaraa syöttämälläsi tunnuksella ei löydy järjestelmästä." << endl;
+	}
 }

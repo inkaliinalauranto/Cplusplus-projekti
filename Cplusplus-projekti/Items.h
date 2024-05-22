@@ -22,7 +22,7 @@ public:
 
 	void listItems();
 
-	void rentItem(int id, string name);
+	void rentItem(string name);
 };
 
 #endif // ITEMS_H

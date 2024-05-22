@@ -9,16 +9,4 @@ sauvat
 Ficher Speedmax Skate
 6
 monot
-0
-Testitavara2
-8
-muu
-0
-Testitavara
-10
-muu
-0
-Testitavara
-11
-muu
-0
+1

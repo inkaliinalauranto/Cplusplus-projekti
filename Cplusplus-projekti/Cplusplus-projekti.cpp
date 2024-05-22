@@ -28,7 +28,7 @@ int main()
     {
         cout << "Mitä haluat tehdä? " << endl;
         cout << "1 -> Listaa tavarat" << endl; // Tehty
-        cout << "2 -> Vuokraa tavara" << endl;
+        cout << "2 -> Vuokraa tavara" << endl; // Tehty
         cout << "3 -> Palauta tavara" << endl;
         cout << "4 -> Lisää tavara" << endl; // Tehty
         cout << "5 -> Poista tavara" << endl; // Tehty
@@ -44,7 +44,11 @@ int main()
         }
         else if (choice == 2)
         {
-            cout << "Minkä tavaran haluat vuokrata (anna valinnan 1 tulostuksessa näkyvä id)?" << endl;
+            string itemId;
+            cout << "Syötä vuokrattavan tavaran id: ";
+            cin >> itemId;
+            cout << endl;
+            items.rentItem(itemId);
         }
         else if (choice == 3)
         {
@@ -79,7 +83,7 @@ int main()
         else if (choice == 5)
         {
             string itemId;
-            cout << "Syötä poistettavan tavaran id: " << endl;
+            cout << "Syötä poistettavan tavaran id: ";
             cin >> itemId;
             items.removeItem(itemId);
         }
