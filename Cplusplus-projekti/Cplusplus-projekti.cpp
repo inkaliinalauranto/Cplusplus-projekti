@@ -12,16 +12,93 @@
 */
 
 #include <iostream>
-#include "Item.h"
 #include "Items.h"
 
-
+using namespace std;
 
 int main()
 {
     Items items = Items();
-    items.listItems();
 
+    int choice;
+    
+    cout << "Tervetuloa hiihtotarvikkeiden varausj‰rjestelm‰‰n!\n" << endl;
+
+    while (true)
+    {
+        cout << "Mit‰ haluat tehd‰? " << endl;
+        cout << "1 -> Listaa tavarat" << endl; // Tehty
+        cout << "2 -> Vuokraa tavara" << endl;
+        cout << "3 -> Palauta tavara" << endl;
+        cout << "4 -> Lis‰‰ tavara" << endl; // Tehty
+        cout << "5 -> Poista tavara" << endl; // Tehty
+        cout << "6 -> Poistu j‰rjestelm‰st‰\n" << endl; // Tehty
+
+        cout << "Syˆt‰ valintasi: ";
+        cin >> choice;
+        cout << endl;
+
+        if (choice == 1)
+        {
+            items.listItems();
+        }
+        else if (choice == 2)
+        {
+            cout << "Mink‰ tavaran haluat vuokrata (anna valinnan 1 tulostuksessa n‰kyv‰ id)?" << endl;
+        }
+        else if (choice == 3)
+        {
+            cout << "Valintaa ei ole viel‰ olemassa." << endl;
+        }
+        else if (choice == 4)
+        {
+            string itemName;
+            int category;
+
+            cout << "Syˆt‰ tavaran nimi: ";
+            cin >> itemName;
+            cout << "\nSyˆt‰ tavaran kategoria" << endl;
+            cout << "(1 -> sukset, 2 -> sauvat, 3 -> monot, 4 -> muu):" << endl;
+            cin >> category;
+            
+            if (category <= 0)
+            {
+                cout << "Ohjelmassa tapahtui virhetilanne - v‰‰r‰nlainen syˆte." << endl;
+                cout << "Jos haluat jatkaa, aja ohjelma uudestaan." << endl;
+                cout << "Kiitos ohjelman k‰ytˆst‰!" << endl;
+                return 1;
+            }
+            else
+            {
+                Item appendableItem = Item(itemName, category, false);
+                items.appendItem(appendableItem);
+            }
+
+        }
+
+        else if (choice == 5)
+        {
+            string itemId;
+            cout << "Syˆt‰ poistettavan tavaran id: " << endl;
+            cin >> itemId;
+            items.removeItem(itemId);
+        }
+        else if (choice == 6)
+        {
+            cout << "Kiitos ohjelman k‰ytˆst‰!" << endl;
+            break;
+        }
+        else
+        {
+            cout << "Ohjelmassa tapahtui virhetilanne - v‰‰r‰nlainen syˆte." << endl;
+            cout << "Jos haluat jatkaa, aja ohjelma uudestaan." << endl;
+            cout << "Kiitos ohjelman k‰ytˆst‰!" << endl;
+            return 1;
+        }
+        cout << endl;
+    }
+
+    return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

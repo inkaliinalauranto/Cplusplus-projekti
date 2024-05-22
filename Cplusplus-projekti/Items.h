@@ -2,6 +2,9 @@
 #define ITEMS_H
 
 #include "Item.h"
+#include <iostream>
+
+using namespace std;
 
 class Items
 {
@@ -13,11 +16,13 @@ public:
 	Items();
 
 	// Julkiset metodit:
-	//void appendItem(Item item);
+	void appendItem(Item item);
 
-	//void removeItem(Item item);
+	void removeItem(string id);
 
 	void listItems();
+
+	void rentItem(int id, string name);
 };
 
 #endif // ITEMS_H

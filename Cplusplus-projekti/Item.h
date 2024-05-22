@@ -2,19 +2,25 @@
 #define ITEM_H
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 class Item
 {
+private:
+	size_t generateId();
+
 protected:
-	int id;
+	size_t id;
 	string name;
-	int category;
+	string category;
 	bool isRented;
+	string row;
+	vector<string> rows;
 
 public:
-	static int itemCount;
+	static size_t count;
 
 	// Oletusrakentaja:
 	Item();
@@ -23,9 +29,12 @@ public:
 	Item(string name, int category, bool isRented);
 
 	// Julkiset metodit:
-	void borrow();
-	void revert();
 	void printInformation();
+	size_t getId();
+	string getName();
+	string getCategory();
+	bool getRentalState();
+	void setRentalState(bool state);
 };
 
 #endif // ITEM_H

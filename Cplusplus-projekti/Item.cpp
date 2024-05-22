@@ -1,18 +1,60 @@
 #include "Item.h"
 
 #include <iostream>
+#include <vector>
+#include <fstream>
+#include <string>
+#include <cstring>
 
 using namespace std;
 
-int Item::itemCount = 0;
+size_t Item::count = 0;
+
+size_t Item::generateId()
+{
+	string row;
+	vector<string> rows;
+	size_t biggestNumber = 0;
+	ifstream itemsFileForReading3 = ifstream("items_file.txt");
+
+	if (itemsFileForReading3.good())
+	{
+		while (getline(itemsFileForReading3, row))
+		{
+			rows.push_back(row);
+		}
+	}
+
+	itemsFileForReading3.close();
+
+	if (rows.size() >= 4 && rows.size() % 4 == 0)
+	{
+		for (int i = 1; i < rows.size(); i += 4)
+		{
+			int idAsInt = stoi(rows[i]);
+			if (idAsInt > biggestNumber)
+			{
+				biggestNumber = (size_t)idAsInt;
+			}
+		}
+	}
+	else
+	{
+		/* Koska muuttuja count kertoo instanssien lukumäärän, 
+		*/
+		biggestNumber = count - 1;
+	}
+
+	return biggestNumber + 1;
+}
 
 // Oletusrakentaja:
 Item::Item()
 {
-	itemCount++;
-	this->id = itemCount;
-	this->name = "";
-	this->category = 4;
+	count++;
+	this->id = generateId();
+	this->name = "ei nimeä";
+	this->category = "muu";
 	this->isRented = false;
 }
 
@@ -20,25 +62,30 @@ Item::Item()
 // Kuormitettu rakentaja:
 Item::Item(string name, int category, bool isRented)
 {
-	itemCount++;
-	this->id = itemCount;
+	count++;
+	this->id = generateId();
 	this->name = name;
-	this->category = category;
+
+	switch (category)
+	{
+	case 1:
+		this->category = "sukset";
+		break;
+
+	case 2:
+		this->category = "sauvat";
+		break;
+
+	case 3:
+		this->category = "monot";
+		break;
+
+	default:
+		this->category = "muu";
+		break;
+	}
+
 	this->isRented = isRented;
-}
-
-
-void Item::borrow()
-{
-	this->isRented = true;
-	cout << "Tavara vuokrattu" << endl;
-}
-
-
-void Item::revert()
-{
-	this->isRented = false;
-	cout << "Tavara palautettu" << endl;
 }
 
 
@@ -46,25 +93,7 @@ void Item::printInformation()
 {
 	cout << "Tavaran nimi: " << this->name << endl;
 	cout << "Tavaran id: " << this->id << endl;
-	cout << "Tavaran kategoria: ";
-	switch (category)
-	{
-	case 1:
-		cout << "sukset" << endl;
-		break;
-
-	case 2:
-		cout << "sauvat" << endl;
-		break;
-
-	case 3:
-		cout << "monot" << endl;
-		break;
-	default:
-		cout << "muu" << endl;
-		break;
-	}
-	
+	cout << "Tavaran kategoria: " << this->category << endl;
 	cout << "Tavaran vuokraustilanne: ";
 	if (isRented)
 	{ 
@@ -74,4 +103,34 @@ void Item::printInformation()
 	{
 		cout << "vapaa\n" << endl;
 	}
+}
+
+
+size_t Item::getId()
+{
+	return this->id;
+}
+
+
+string Item::getName()
+{
+	return this->name;
+}
+
+
+string Item::getCategory()
+{
+	return this->category;
+}
+
+
+bool Item::getRentalState()
+{
+	return this->isRented;
+}
+
+
+void Item::setRentalState(bool state)
+{
+	this->isRented = state;
 }
