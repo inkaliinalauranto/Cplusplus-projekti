@@ -24,6 +24,102 @@ void printEndLine()
 }
 
 
+int handleError()
+{
+	cout << "Ohjelmassa tapahtui virhetilanne - vääränlainen syöte." << endl;
+	cout << "Jos haluat jatkaa, aja ohjelma uudestaan." << endl;
+	cout << "Kiitos ohjelman käytöstä!" << endl;
+	return 1;
+}
+
+
+void rentItem(Items items)
+{
+	items.listItems();
+	string itemId;
+	cout << "Syötä vuokrattavan tavaran id: ";
+	cin >> itemId;
+	cout << endl;
+	string renting = items.rentItem(itemId);
+	if (renting != "")
+	{
+		cout << renting << " id:llä " << itemId << " vuokrattu onnistuneesti.\n" << endl;
+	}
+	printEndLine();
+}
+
+
+void revertItem(Items items)
+{
+	items.listItems();
+	string itemId;
+	cout << "Syötä palautettavan tavaran id: ";
+	cin >> itemId;
+	cout << endl;
+	string reverting = items.revertItem(itemId);
+	if (reverting != "")
+	{
+		cout << reverting << " id:llä " << itemId << " palautettu onnistuneesti.\n" << endl;
+	}
+	printEndLine();
+}
+
+
+int addItem(Items items)
+{
+	printEndLine();
+	string itemName;
+	int category;
+	cout << "Syötä tavaran nimi: ";
+	cin.ignore();
+	getline(cin, itemName);
+	cout << endl;
+
+	if (itemName == "")
+	{
+		cout << "Tavaraa ei voida lisätä, koska sitä ei ole nimetty.\n" << endl;
+		printEndLine();
+		return 2;
+	}
+
+	cout << "Syötä tavaran kategoria (1 -> sukset, 2 -> sauvat, 3 -> monot, 4 -> muu): ";
+	cin >> category;
+	cout << endl;
+
+	if (category <= 0)
+	{
+		return handleError();
+	}
+	else
+	{
+		Item appendableItem = Item(itemName, category, false);
+		size_t appending = items.appendItem(appendableItem);
+		if (appending >= 0)
+		{
+			cout << itemName << " lisätty järjestelmään onnistuneesti id:llä " << appending << "\n" << endl;
+		}
+		printEndLine();
+		return 0;
+	}
+}
+
+
+void deleteItem(Items items)
+{
+	items.listItems();
+	string itemId;
+	cout << "Syötä poistettavan tavaran id: ";
+	cin >> itemId;
+	cout << endl;
+	string removing = items.removeItem(itemId);
+	if (removing != "")
+	{
+		cout << removing << " poistettu järjestelmästä onnistuneesti id:llä " << itemId << "\n" << endl;
+	}
+	printEndLine();
+}
+
+
 int main()
 {
 	// Huomioidaan tulostuksissa skandinaaviset aakkoset:
@@ -55,84 +151,28 @@ int main()
 		}
 		else if (choice == 2)
 		{
-			items.listItems();
-			string itemId;
-			cout << "Syötä vuokrattavan tavaran id: ";
-			cin >> itemId;
-			cout << endl;
-			string renting = items.rentItem(itemId);
-			if (renting != "")
-			{
-				cout << renting << " id:llä " << itemId << " vuokrattu onnistuneesti.\n" << endl;
-			}
-			printEndLine();
+			rentItem(items);
 		}
 		else if (choice == 3)
 		{
-			items.listItems();
-			string itemId;
-			cout << "Syötä palautettavan tavaran id: ";
-			cin >> itemId;
-			cout << endl;
-			string reverting = items.revertItem(itemId);
-			if (reverting != "")
-			{
-				cout << reverting << " id:llä " << itemId << " palautettu onnistuneesti.\n" << endl;
-			}
-			printEndLine();
+			revertItem(items);
 		}
 		else if (choice == 4)
 		{
-			printEndLine();
-			string itemName;
-			int category;
-			cout << "Syötä tavaran nimi: ";
-			cin.ignore();
-			getline(cin, itemName);
-			cout << endl;
-
-			if (itemName == "")
+			int additionEvent = addItem(items);
+			
+			if (additionEvent == 1)
 			{
-				cout << "Tavaraa ei voida lisätä, koska sitä ei ole nimetty.\n" << endl;
-				printEndLine();
-				continue;
-			}
-
-			cout << "Syötä tavaran kategoria (1 -> sukset, 2 -> sauvat, 3 -> monot, 4 -> muu): ";
-			cin >> category;
-			cout << endl;
-
-			if (category <= 0)
-			{
-				cout << "Ohjelmassa tapahtui virhetilanne - vääränlainen syöte." << endl;
-				cout << "Jos haluat jatkaa, aja ohjelma uudestaan." << endl;
-				cout << "Kiitos ohjelman käytöstä!" << endl;
 				return 1;
 			}
-			else
+			else if (additionEvent == 2)
 			{
-				Item appendableItem = Item(itemName, category, false);
-				size_t appending = items.appendItem(appendableItem);
-				if (appending >= 0)
-				{
-					cout << itemName << " lisätty järjestelmään onnistuneesti id:llä " << appending << "\n" << endl;
-				}
-				printEndLine();
+				continue;
 			}
 		}
 		else if (choice == 5)
 		{
-			items.listItems();
-			string itemId;
-			cout << "Syötä poistettavan tavaran id: ";
-			cin >> itemId;
-			cout << endl;
-			string removing = items.removeItem(itemId);
-			if (removing != "")
-			{
-				cout << removing << " poistettu järjestelmästä onnistuneesti id:llä " << itemId << "\n" << endl;
-			}
-			printEndLine();
+			deleteItem(items);
 		}
 		else if (choice == 6)
 		{
@@ -142,10 +182,7 @@ int main()
 		}
 		else
 		{
-			cout << "Ohjelmassa tapahtui virhetilanne - vääränlainen syöte." << endl;
-			cout << "Jos haluat jatkaa, aja ohjelma uudestaan." << endl;
-			cout << "Kiitos ohjelman käytöstä!" << endl;
-			return 1;
+			return handleError();
 		}
 	}
 
