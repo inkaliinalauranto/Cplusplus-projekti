@@ -8,11 +8,41 @@
 
 using namespace std;
 
+
+Items::Items()
+{
+	ifstream itemsFileForReading = ifstream(this->fileName);
+
+	/* Jos items_file.txt-tiedostoa ei viel‰ ole olemassa eli jos ohjelma
+	* ajetaan ensimm‰isen kerran, luodaan tiedosto ja lis‰t‰‰n siihen
+	* silmukassa items-taulukon alkioiden tiedot.
+	*/
+	if (!itemsFileForReading.good())
+	{
+		ofstream itemsFile = ofstream(this->fileName);
+		/* Lis‰t‰‰n demotarkoituksessa oletusrakentajassa kolmen alkion
+		* mittaiseen items-taulukkoon kolme tavaraa:
+		*/
+		for (int i = 0; i < 3; i++)
+		{
+			int id = i + 1;
+			itemsFile
+				<< items[i].getName() << "\n"
+				<< items[i].getId() << "\n"
+				<< items[i].getCategory() << "\n"
+				<< items[i].getRentalState() << "\n";
+		}
+		itemsFile.close();
+	}
+
+	itemsFileForReading.close();
+}
+
 // Pass by reference
-void Items::readFileToRows(const string filename, vector<string>& rows)
+void Items::readFileToRows(vector<string>& rows)
 {
 	string row;
-	ifstream fileReading = ifstream(filename);
+	ifstream fileReading = ifstream(this->fileName);
 
 	if (fileReading.good())
 	{
@@ -43,33 +73,74 @@ int Items::setSize(vector<string> rows)
 }
 
 
-Items::Items()
+string Items::changeRentalState(vector<string>& rows, const string id, const bool propertyState, const string emsg)
 {
-	ifstream itemsFileForReading = ifstream("items_file.txt");
+	int rowsSize = setSize(rows);
+	int indexOfItemName = rowsSize;
+	int indexOfValueToBeChanged = rowsSize;
+	bool isIdInFile = false;
+	bool isAlreadyInAction = false;
+	string itemName = "";
 
-	/* Jos items_file.txt-tiedostoa ei viel‰ ole olemassa eli jos ohjelma
-	* ajetaan ensimm‰isen kerran, luodaan tiedosto ja lis‰t‰‰n siihen
-	* silmukassa items-taulukon alkioiden tiedot.
-	*/
-	if (!itemsFileForReading.good())
+	ofstream fileWriting = ofstream(this->fileName);
+
+	if (fileWriting.fail())
 	{
-		ofstream itemsFile = ofstream("items_file.txt");
-		/* Lis‰t‰‰n demotarkoituksessa oletusrakentajassa kolmen alkion
-		* mittaiseen items-taulukkoon kolme tavaraa:
-		*/
-		for (int i = 0; i < 3; i++)
+		cout << "Ohjelmassa tapahtui virhetilanne - tiedostoon ei voi kirjoittaa.\n" << endl;
+	}
+	else if (rows.size() >= 4 && rows.size() % 4 == 0)
+	{
+		for (int i = 1; i < rows.size(); i += 4)
 		{
-			int id = i + 1;
-			itemsFile
-				<< items[i].getName() << "\n"
-				<< items[i].getId() << "\n"
-				<< items[i].getCategory() << "\n"
-				<< items[i].getRentalState() << "\n";
+			if (rows[i] == id)
+			{
+				indexOfItemName = i - 1;
+				indexOfValueToBeChanged = i + 2;
+				isIdInFile = true;
+			}
 		}
-		itemsFile.close();
+
+		for (int i = 0; i < rows.size(); i++)
+		{
+			if (i == indexOfValueToBeChanged)
+			{
+				if ((bool)stoi(rows[i]) == propertyState)
+				{
+					isAlreadyInAction = true;
+					cout << emsg << endl;
+				}
+				else
+				{
+					rows[i] = to_string(propertyState);
+				}
+			}
+			else if (i == indexOfItemName)
+			{
+				itemName = rows[indexOfItemName];
+			}
+			fileWriting << rows[i] << endl;
+		}
+	}
+	else
+	{
+		cout << "Tiedosto on tyhj‰ tai siin‰ olevat tiedot ovat puutteellisia.\n" << endl;
 	}
 
-	itemsFileForReading.close();
+	fileWriting.close();
+
+	if (!isIdInFile)
+	{
+		cout << "Tavaraa syˆtt‰m‰ll‰si tunnuksella ei lˆydy j‰rjestelm‰st‰.\n" << endl;
+		return "";
+	}
+	else if (isAlreadyInAction)
+	{
+		return "";
+	}
+	else
+	{
+		return itemName;
+	}
 }
 
 
@@ -138,75 +209,13 @@ string Items::rentItem(string id)
 	/* Luetaan tiedoston sis‰ltˆ rows-muuttujaan hyˆdynt‰m‰ll‰ 
 	* pass by reference -tekniikkaa:
 	*/
-	readFileToRows(this->fileName, rows);
+	readFileToRows(rows);
 
-	int rowsSize = setSize(rows);
-	int indexOfItemName = rowsSize;
-	string itemName = "";
-	int indexOfValueToBeChanged = rowsSize;
-	bool isIdInFile = false;
-	bool isAlreadyRented = false;
+	bool propertyState = true;
+	string errorMessage = "Tavara on jo varattu, ei vuokrattavissa.\n";
 
 	// Varsinainen varaaminen:
-	ofstream itemsFileForWriting = ofstream("items_file.txt");
-
-	if (itemsFileForWriting.fail())
-	{
-		cout << "Ohjelmassa tapahtui virhetilanne - tiedostoon ei voi kirjoittaa.\n" << endl;
-	}
-	else if (rows.size() >= 4 && rows.size() % 4 == 0)
-	{
-		for (int i = 1; i < rows.size(); i += 4)
-		{
-			if (rows[i] == id)
-			{
-				indexOfItemName = i - 1;
-				indexOfValueToBeChanged = i + 2;
-				isIdInFile = true;
-			}
-		}
-
-		for (int idx = 0; idx < rows.size(); idx++)
-		{
-			if (idx == indexOfValueToBeChanged)
-			{
-				if ((bool)stoi(rows[idx]) == true)
-				{
-					isAlreadyRented = true;
-					cout << "Tavara on jo varattu, ei vuokrattavissa.\n" << endl;
-				}
-				else
-				{
-					rows[idx] = to_string(true);
-				}
-			}
-			else if (idx == indexOfItemName)
-			{
-				itemName = rows[indexOfItemName];
-			}
-			itemsFileForWriting << rows[idx] << endl;
-		}
-	}
-	else
-	{
-		cout << "Tiedosto on tyhj‰ tai siin‰ olevat tiedot ovat puutteellisia.\n" << endl;
-	}
-
-	itemsFileForWriting.close();
-
-	if (!isIdInFile)
-	{
-		cout << "Tavaraa syˆtt‰m‰ll‰si tunnuksella ei lˆydy j‰rjestelm‰st‰.\n" << endl;
-		return "";
-	}
-	else if (isAlreadyRented)
-	{
-		return "";
-	}
-	else
-	{
-		return itemName;
-	}
+	return changeRentalState(rows, id, propertyState, errorMessage);
 }
 
 
@@ -215,84 +224,15 @@ string Items::revertItem(string id)
 	string row;
 	vector<string> rows;
 
-	bool isIdInFile = false;
-	bool isAlreadyReverted = false;
-
 	/* Luetaan tiedoston sis‰ltˆ rows-muuttujaan hyˆdynt‰m‰ll‰
 	* pass by reference -tekniikkaa:
 	*/
-	readFileToRows(this->fileName, rows);
+	readFileToRows(rows);
 
-	int rowsSize = 0;
-	if (!rows.empty())
-	{
-		rowsSize = (int)rows.size();
-	}
+	bool propertyState = false;
+	string errorMessage = "Tavara on jo palautettu.\n";
 
-	int indexOfItemName = rowsSize;
-	string itemName = "";
-	int IndexOfValueToBeChanged = rowsSize;
-
-	// Varsinainen palauttaminen:
-	ofstream itemsFileForWriting = ofstream("items_file.txt");
-
-	if (itemsFileForWriting.fail())
-	{
-		cout << "Ohjelmassa tapahtui virhetilanne - tiedostoon ei voi kirjoittaa.\n" << endl;
-	}
-	else if (rows.size() >= 4 && rows.size() % 4 == 0)
-	{
-		for (int i = 1; i < rows.size(); i += 4)
-		{
-			if (rows[i] == id)
-			{
-				indexOfItemName = i - 1;
-				IndexOfValueToBeChanged = i + 2;
-				isIdInFile = true;
-			}
-		}
-
-		for (int idx = 0; idx < rows.size(); idx++)
-		{
-			if (idx == IndexOfValueToBeChanged)
-			{
-				if ((bool)stoi(rows[idx]) == false)
-				{
-					isAlreadyReverted = true;
-					cout << "Tavara on jo palautettu.\n" << endl;
-				}
-				else
-				{
-					rows[idx] = to_string(false);
-				}
-			}
-			else if (idx == indexOfItemName)
-			{
-				itemName = rows[indexOfItemName];
-			}
-			itemsFileForWriting << rows[idx] << endl;
-		}
-	}
-	else
-	{
-		cout << "Tiedosto on tyhj‰ tai siin‰ olevat tiedot ovat puutteellisia.\n" << endl;
-	}
-
-	itemsFileForWriting.close();
-
-	if (!isIdInFile)
-	{
-		cout << "Tavaraa syˆtt‰m‰ll‰si tunnuksella ei lˆydy j‰rjestelm‰st‰.\n" << endl;
-		return "";
-	}
-	else if (isAlreadyReverted)
-	{
-		return "";
-	}
-	else
-	{
-		return itemName;
-	}
+	return changeRentalState(rows, id, propertyState, errorMessage);
 }
 
 
@@ -303,7 +243,7 @@ size_t Items::appendItem(Item item)
 	* ios_base::app | ios_base::out. Tekstiksi lis‰t‰‰n uuden tavaran
 	* tiedot, jotka saadaan v‰litetyn item-parametrin getter-metodeilla.
 	*/
-	ofstream itemsFile = ofstream("items_file.txt", ios_base::app | ios_base::out);
+	ofstream itemsFile = ofstream(fileName, ios_base::app | ios_base::out);
 
 	if (itemsFile.fail())
 	{
@@ -319,6 +259,7 @@ size_t Items::appendItem(Item item)
 			<< item.getRentalState() << "\n";
 
 		itemsFile.close();
+
 		return item.getId();
 	}
 }
@@ -328,28 +269,22 @@ string Items::removeItem(string id)
 {
 	string row;
 	vector<string> rows;
-	bool isIdInFile = false;
 
 	// Pass by reference:
-	readFileToRows(this->fileName, rows);
+	readFileToRows(rows);
 
 	// Varsinainen poisto:
-	int rowsSize = 0;
-
-	if (!rows.empty())
-	{
-		rowsSize = (int)rows.size();
-	}
-
+	int rowsSize = setSize(rows);
 	string itemName = "";
 	int firstRemovableIndex = rowsSize;
 	int secondRemovableIndex = rowsSize + 1;
 	int thirdRemovableIndex = rowsSize + 2;
 	int fourthRemovableIndex = rowsSize + 3;
+	bool isIdInFile = false;
 
-	ofstream itemsFileForWriting2 = ofstream("items_file.txt");
+	ofstream fileWriting = ofstream(this->fileName);
 
-	if (itemsFileForWriting2.fail())
+	if (fileWriting.fail())
 	{
 		cout << "Ohjelmassa tapahtui virhetilanne - tiedostoon ei voi kirjoittaa.\n" << endl;
 	}
@@ -359,26 +294,21 @@ string Items::removeItem(string id)
 		{
 			if (rows[i] == id)
 			{
-				//cout << "Poistettavat indeksit: ";
 				firstRemovableIndex = i - 1;
 				secondRemovableIndex = i;
 				thirdRemovableIndex = i + 1;
 				fourthRemovableIndex = i + 2;
-				//cout << firstRemovableIndex << ", ";
-				//cout << secondRemovableIndex << ", ";
-				//cout << thirdRemovableIndex << ", ";
-				//cout << fourthRemovableIndex << endl;
 				isIdInFile = true;
 			}
 		}
 
-		for (int idx = 0; idx < rows.size(); idx++)
+		for (int i = 0; i < rows.size(); i++)
 		{
-			if (idx != firstRemovableIndex && idx != secondRemovableIndex && idx != thirdRemovableIndex && idx != fourthRemovableIndex)
+			if (i != firstRemovableIndex && i != secondRemovableIndex && i != thirdRemovableIndex && i != fourthRemovableIndex)
 			{
-				itemsFileForWriting2 << rows[idx] << endl;
+				fileWriting << rows[i] << endl;
 			}
-			else if (idx == firstRemovableIndex)
+			else if (i == firstRemovableIndex)
 			{
 				itemName = rows[firstRemovableIndex];
 			}
@@ -387,10 +317,9 @@ string Items::removeItem(string id)
 	else
 	{
 		cout << "Tiedosto on tyhj‰ tai siin‰ olevat tiedot ovat puutteellisia.\n" << endl;
-		return "";
 	}
 
-	itemsFileForWriting2.close();
+	fileWriting.close();
 
 	if (!isIdInFile)
 	{

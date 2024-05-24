@@ -22,9 +22,11 @@ private:
 	const string fileName = "items_file.txt";
 
 	// Privaatit jäsenmetodit:
-	void readFileToRows(const string filename, vector<string>& rows);
+	void readFileToRows(vector<string>& rows);
 
 	int setSize(vector<string> rows);
+
+	string changeRentalState(vector<string>& rows, const string id, const bool propertyState, const string emsg);
 
 public:
 	// Oletusrakentaja:
