@@ -1,16 +1,16 @@
 Rossignol Xium
 1
 sukset
-1
+0
 Leki HRC
 2
 sauvat
-0
-testitavara, jossa valiluonteja
-4
-muu
-0
-Ficher Speedmax Skate
-5
-sukset
 1
+Ficher Speedmax Skate
+3
+monot
+1
+excel
+6
+sauvat
+0

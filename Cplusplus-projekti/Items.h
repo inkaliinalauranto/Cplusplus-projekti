@@ -5,21 +5,15 @@
 #include <iostream>
 #include <vector>
 
-using namespace std;
-
 class Items
 {
 private:
 	/* Lis‰t‰‰n demotarkoituksessa oletusrakentajassa kolmen alkion
 	* mittaiseen items-taulukkoon kolme tavaraa:
 	*/
-	Item items[3] = 
-	{ 
-		Item("Rossignol Xium", 1, false),  
-		Item("Leki HRC", 2, false), 
-		Item("Ficher Speedmax Skate", 3, false) 
-	};
-	const string fileName = "items_file.txt";
+	Item items[3];
+
+	string fileName;
 
 	// Privaatit j‰senmetodit:
 	void readFileToRows(vector<string>& rows);

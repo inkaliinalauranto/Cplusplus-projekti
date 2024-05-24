@@ -11,6 +11,17 @@ using namespace std;
 
 Items::Items()
 {
+	this->items[0] = Item("Rossignol Xium", 1, false);
+	this->items[1] = Item("Leki HRC", 2, false);
+	this->items[2] = Item("Ficher Speedmax Skate", 3, false);
+	
+	//{
+	//	Item("Rossignol Xium", 1, false),
+	//	Item("Leki HRC", 2, false),
+	//	Item("Ficher Speedmax Skate", 3, false)
+	//};
+
+	this->fileName = "items_file.txt";
 	ifstream itemsFileForReading = ifstream(this->fileName);
 
 	/* Jos items_file.txt-tiedostoa ei vielä ole olemassa eli jos ohjelma
@@ -37,6 +48,7 @@ Items::Items()
 
 	itemsFileForReading.close();
 }
+
 
 // Pass by reference
 void Items::readFileToRows(vector<string>& rows)

@@ -42,7 +42,7 @@ size_t Item::generateId()
 	{
 		/* Koska muuttuja count kertoo instanssien lukumäärän, 
 		*/
-		biggestNumber = count - 1;
+		biggestNumber = count - 4;
 	}
 
 	return biggestNumber + 1;
