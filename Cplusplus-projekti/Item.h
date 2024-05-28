@@ -9,32 +9,34 @@ using namespace std;
 class Item
 {
 private:
+	// Luokan privaatin jäsenmetodin esittely:
 	size_t generateId();
 
 protected:
+	// Luokan suojattujen jäsenmuuttujien esittely:
 	size_t id;
 	string name;
 	string category;
 	bool isRented;
-	string row;
-	vector<string> rows;
+
+	// Luokan suojatun jäsenmetodin esittely:
+	void printInformation();
 
 public:
+	// Julkisen staattisen luokkamuuttujan esittely:
 	static size_t count;
 
-	// Oletusrakentaja:
+	// Julkisen oletusrakentajan esittely:
 	Item();
 
-	// Kuormitettu rakentaja:
+	// Julkisen kuormitetun rakentajan esittely:
 	Item(string name, int category, bool isRented);
 
-	// Julkiset metodit:
-	void printInformation();
+	// Julkisten getter-metodien esittely:
 	size_t getId();
 	string getName();
 	string getCategory();
 	bool getRentalState();
-	void setRentalState(bool state);
 };
 
 #endif // ITEM_H
