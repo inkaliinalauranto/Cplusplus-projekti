@@ -8,14 +8,17 @@
 class Items
 {
 private:
-	/* Lis‰t‰‰n demotarkoituksessa oletusrakentajassa kolmen alkion
-	* mittaiseen items-taulukkoon kolme tavaraa:
+	/* Esitell‰‰n privaatti j‰senmuuttuja, joka on kolmen Item-instanssin 
+	* mittainen taulukko demotarkoituksessa. 
 	*/
 	Item items[3];
 
+	/* Merkkijonomuotoa olevan fileName-nimisen privaatin j‰senmuuttujan 
+	esittely:
+	*/
 	string fileName;
 
-	// Privaatit j‰senmetodit:
+	// Privaattien j‰senmetodien esittely:
 	void readFileToRows(vector<string>& rows);
 
 	int setSize(vector<string> rows);
@@ -23,10 +26,10 @@ private:
 	string changeRentalState(vector<string>& rows, const string id, const bool propertyState, const string emsg);
 
 public:
-	// Oletusrakentaja:
+	// Julkisen oletusrakentajan esittely:
 	Items();
 
-	// Julkiset metodit:
+	// Julkisten j‰senmetodien esittely:
 	void listItems();
 
 	string rentItem(string id);
