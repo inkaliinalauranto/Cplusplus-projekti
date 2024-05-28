@@ -147,26 +147,6 @@ Item::Item(string name, int category, bool isRented)
 }
 
 
-/* Luokan suojattu jäsenmetodi, joka tulostaa tavaran tiedot instanssin 
-* jäsenmuuttujien arvojen perustella:
-*/
-void Item::printInformation()
-{
-	cout << "Tavaran nimi: " << this->name << endl;
-	cout << "Tavaran id: " << this->id << endl;
-	cout << "Tavaran kategoria: " << this->category << endl;
-	cout << "Tavaran vuokraustilanne: ";
-	if (isRented)
-	{ 
-		cout << "varattu\n" << endl;
-	}
-	else
-	{
-		cout << "vapaa\n" << endl;
-	}
-}
-
-
 // id-jäsenmuuttujan getter-metodi:
 size_t Item::getId()
 {

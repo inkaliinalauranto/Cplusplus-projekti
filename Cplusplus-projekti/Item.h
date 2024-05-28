@@ -19,9 +19,6 @@ protected:
 	string category;
 	bool isRented;
 
-	// Luokan suojatun jäsenmetodin esittely:
-	void printInformation();
-
 public:
 	// Julkisen staattisen luokkamuuttujan esittely:
 	static size_t count;
