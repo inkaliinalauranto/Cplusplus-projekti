@@ -1,7 +1,7 @@
 Rossignol Xium
 1
 sukset
-0
+1
 Leki HRC
 2
 sauvat
@@ -9,7 +9,7 @@ sauvat
 Ficher Speedmax Skate
 3
 monot
-1
+0
 excel
 6
 sauvat

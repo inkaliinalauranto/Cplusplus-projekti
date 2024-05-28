@@ -6,29 +6,29 @@
 class Menu
 {
 private:
-	// Privaatit jäsenmuuttujat:
+	// Privaattien jäsenmuuttujien esittely:
 	Items items;
 
 	int choice;
 
-	// Privaatit jäsenmetodit:
+	// Privaattien jäsenmetodien esittely:
 	void printEndLine();
 
-	int handleError();
-
-	void rentItem(Items& items);
+	void borrowItem(Items& items);
 
 	void returnItem(Items& items);
+
+	int handleError();
 
 	int addItem(Items& items);
 
 	void deleteItem(Items& items);
 
 public:
-	// Julkinen oletusrakentaja:
+	// Julkisen oletusrakentajan esittely:
 	Menu();
 
-	// Julkinen metodi:
+	// Julkisen metodin esittely:
 	int start();
 };
 

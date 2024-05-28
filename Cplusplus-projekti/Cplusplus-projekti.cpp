@@ -2,13 +2,14 @@
 //
 
 /* Yksinkertainen varastonhallintajärjestelmä:
-* - tavaroiden lainaus ja palautus,
-* - luokat: tavara, jäsen
+* - tavaroiden lainaus ja palautus, %
+* - luokat: tavara, tavarat, valikko %
 * - periytyminen: tavaroiden eri kategoriat
-* - funktiot: lisää, lainaa ja palauta tavara sekä listaa tavarat
-* - standardi C++ -kirjastot: vector, string, iostream, fstream,
-* - komentokehoterajapinta toimii eri yllä mainittuihin operaatioihin
+* - funktiot: lisää, lainaa ja palauta tavara sekä listaa tavarat %
+* - standardi C++ -kirjastot: vector, string, iostream, fstream, %
+* - komentokehoterajapinta toimii eri yllä mainittuihin operaatioihin %
 * - README: ohje käyttöön sekä tarvittaessa ohje VS Community 2022 asennukseen
+* - kommentit
 */
 
 #include <iostream>
@@ -21,10 +22,10 @@ int main()
 	// Huomioidaan tulostuksissa skandinaaviset aakkoset:
 	setlocale(LC_ALL, "fi-FI");
 
+	// Luodaan instanssi Menu-luokasta:
 	Menu program = Menu();
 
+	// Käynnistetään ohjelma Menu-instanssin start-metodia kutsumalla: 
 	return program.start();
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 
