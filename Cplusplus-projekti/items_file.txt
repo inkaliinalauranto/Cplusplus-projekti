@@ -5,12 +5,12 @@ sukset
 Leki HRC
 2
 sauvat
-1
+0
 Ficher Speedmax Skate
 3
 monot
-0
-gdgdf gdgdf dg
-7
+1
+Atomic
+8
 sukset
 0

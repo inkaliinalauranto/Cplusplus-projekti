@@ -13,24 +13,33 @@ private:
 	*/
 	Item items[3];
 
-	/* Merkkijonomuotoa olevan fileName-nimisen privaatin jäsenmuuttujan 
+	// Privaattien jäsenmetodien esittely:
+	int setSize(vector<string> rows);
+
+	string changeRentalState(vector<string>& rows, const string id, const bool propertyState, const string emsg);
+	
+	void printByCategory(string categoryName, vector<string>& categoryRows);
+
+protected:
+	/* Merkkijonomuotoa olevan fileName-nimisen periytyvän jäsenmuuttujan 
 	esittely:
 	*/
 	string fileName;
 
-	// Privaattien jäsenmetodien esittely:
+	// Periytyvät jäsenmetodit:
 	void readFileToRows(vector<string>& rows);
 
-	int setSize(vector<string> rows);
-
-	string changeRentalState(vector<string>& rows, const string id, const bool propertyState, const string emsg);
+	void filterByCategory(vector<string>& rows, const string cname, vector<string>& categoryRows);
 
 public:
 	// Julkisen oletusrakentajan esittely:
 	Items();
 
+	// Tuhoaja:
+	~Items();
+
 	// Julkisten jäsenmetodien esittely:
-	void listItems();
+	virtual void listItems();
 
 	string rentItem(string id);
 

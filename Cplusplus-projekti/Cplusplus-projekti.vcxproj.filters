@@ -27,6 +27,18 @@
     <ClCompile Include="Menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Skis.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SkiBoots.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Poles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Others.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Item.h">
@@ -36,6 +48,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Skis.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SkiBoots.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Poles.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Others.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -29,6 +29,9 @@ public:
 	// Julkisen kuormitetun rakentajan esittely:
 	Item(string name, int category, bool isRented);
 
+	// Tuhoajan esittely:
+	~Item();
+
 	// Julkisten getter-metodien esittely:
 	size_t getId();
 	string getName();

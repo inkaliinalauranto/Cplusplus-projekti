@@ -131,11 +131,19 @@
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Others.cpp" />
+    <ClCompile Include="Poles.cpp" />
+    <ClCompile Include="SkiBoots.cpp" />
+    <ClCompile Include="Skis.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Item.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Others.h" />
+    <ClInclude Include="Poles.h" />
+    <ClInclude Include="SkiBoots.h" />
+    <ClInclude Include="Skis.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

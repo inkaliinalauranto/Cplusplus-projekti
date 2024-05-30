@@ -14,6 +14,8 @@ private:
 	// Privaattien jäsenmetodien esittely:
 	void printEndLine();
 
+	int listItemsByCategory();
+
 	void borrowItem(Items& items);
 
 	void returnItem(Items& items);
@@ -27,6 +29,9 @@ private:
 public:
 	// Julkisen oletusrakentajan esittely:
 	Menu();
+
+	// Tuhoaja:
+	~Menu();
 
 	// Julkisen metodin esittely:
 	int start();
