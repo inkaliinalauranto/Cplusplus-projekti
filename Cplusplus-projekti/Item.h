@@ -9,15 +9,14 @@ using namespace std;
 class Item
 {
 private:
-	// Luokan privaatin jäsenmetodin esittely:
-	size_t generateId();
-
-protected:
-	// Luokan suojattujen jäsenmuuttujien esittely:
+	// Luokan privaattien jäsenmuuttujien esittely:
 	size_t id;
 	string name;
 	string category;
 	bool isRented;
+
+	// Luokan privaatin jäsenmetodin esittely:
+	size_t generateId();
 
 public:
 	// Julkisen staattisen luokkamuuttujan esittely:

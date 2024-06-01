@@ -24,9 +24,6 @@ using namespace std;
 */
 Items::Items()
 {
-	this->items[0] = Item("Rossignol Xium", 1, false);
-	this->items[1] = Item("Leki HRC", 2, false);
-	this->items[2] = Item("Ficher Speedmax Skate", 3, false);
 	this->fileName = "items_file.txt";
 
 	ifstream itemsFileForReading = ifstream(this->fileName);
@@ -37,7 +34,11 @@ Items::Items()
 	*/
 	if (!itemsFileForReading.good())
 	{
+		this->items[0] = Item("Rossignol Xium", 1, false);
+		this->items[1] = Item("Leki HRC", 2, false);
+		this->items[2] = Item("Ficher Speedmax Skate", 3, false);
 		ofstream itemsFileForReading = ofstream(this->fileName);
+
 		/* Lis‰t‰‰n demotarkoituksessa oletusrakentajassa kolmen alkion
 		* mittaiseen items-taulukkoon kolme tavaraa:
 		*/
@@ -59,6 +60,30 @@ Items::Items()
 
 // Tuhoaja:
 Items::~Items() {}
+
+
+/* M‰‰ritell‰‰n privaatti j‰senmetodi, joka ottaa parametrina
+* merkkijonoalkioista koostuvan vector-listan. T‰ss‰ funktiossa parametrina
+* v‰litetyst‰ muuttujasta tehd‰‰n kopio, eiv‰tk‰ funktion parametriin tekem‰t
+* muutokset tapahdu itse muuttujalle.
+*
+* Alustetaan kokonaislukumuuttuja size arvoon 0. Jos parametrin‰ v‰litetyss‰
+* muuttujassa on alkioita eli jos se ei ole tyhj‰, asetetaan size-muuttujan
+* arvoksi alkioiden m‰‰r‰ hyˆdynt‰m‰ll‰ parametrin size-j‰senmetodia. Koska
+* metodi palauttaa size_t-tietotyyppi‰ olevan arvon, tehd‰‰n sille type
+* castaus. Lopuksi palautetaan size-muutujan arvo.
+*/
+int Items::setSize(vector<string> rows)
+{
+	int size = 0;
+
+	if (!rows.empty())
+	{
+		size = (int)rows.size();
+	}
+
+	return size;
+}
 
 
 /* Funktiolle v‰litet‰‰n parametrina merkkijonoalkioista koostuva dynaaminen
@@ -98,30 +123,6 @@ void Items::readFileToRows(vector<string>& rows)
 }
 
 
-/* M‰‰ritell‰‰n privaatti j‰senmetodi, joka ottaa parametrina
-* merkkijonoalkioista koostuvan vector-listan. T‰ss‰ funktiossa parametrina
-* v‰litetyst‰ muuttujasta tehd‰‰n kopio, eiv‰tk‰ funktion parametriin tekem‰t
-* muutokset tapahdu itse muuttujalle.
-*
-* Alustetaan kokonaislukumuuttuja size arvoon 0. Jos parametrin‰ v‰litetyss‰
-* muuttujassa on alkioita eli jos se ei ole tyhj‰, asetetaan size-muuttujan
-* arvoksi alkioiden m‰‰r‰ hyˆdynt‰m‰ll‰ parametrin size-j‰senmetodia. Koska
-* metodi palauttaa size_t-tietotyyppi‰ olevan arvon, tehd‰‰n sille type
-* castaus. Lopuksi palautetaan size-muutujan arvo.
-*/
-int Items::setSize(vector<string> rows)
-{
-	int size = 0;
-
-	if (!rows.empty())
-	{
-		size = (int)rows.size();
-	}
-
-	return size;
-}
-
-
 /* M‰‰ritell‰‰n privaatti j‰senmetodi, joka ottaa parametreina
 * merkkijonoalkioista koostuvan vector-listan pass by reference -tyylill‰ sek‰
 * vakioarvoisina tunnuksesta kertovan merkkijonon, tilanteesta kertovan
@@ -134,7 +135,7 @@ int Items::setSize(vector<string> rows)
 * onnistu, tulostetaan siit‰ viesti.
 *
 * Jos taas parametrina v‰litetyn vector-listan alkioiden lukum‰‰r‰ on
-* suurempi kuin nelj‰, eli tiedostossa on rivej‰, ja jos lukum‰‰r‰n
+* nelj‰ tai suurempi, eli tiedostossa on rivej‰, ja jos lukum‰‰r‰n
 * jakoj‰‰nnˆs on 0 eli rivit on kirjoitettu tiedostoon oikealla tavalla,
 * iteroidaan kaikki vuokrauksen tilasta kertova rivit l‰pi. Jos parametrina
 * v‰litetyn tunnuksen arvo vastaa iteraatiokierroksen arvoa, asetetaan
@@ -441,7 +442,7 @@ size_t Items::appendItem(Item item)
 * onnistu, tulostetaan siit‰ viesti.
 *
 * Jos taas parametrina v‰litetyn vector-listan alkioiden lukum‰‰r‰ on
-* suurempi kuin nelj‰, eli tiedostossa on rivej‰, ja jos lukum‰‰r‰n
+* nelj‰ tai suurempi, eli tiedostossa on rivej‰ ja jos lukum‰‰r‰n
 * jakoj‰‰nnˆs on 0 eli rivit on kirjoitettu tiedostoon oikealla tavalla,
 * iteroidaan kaikki tunnuksen kertovat rivit l‰pi. Jos parametrina v‰litetyn
 * tunnuksen arvo vastaa iteraatiokierroksen arvoa, asetetaan arvot
@@ -538,38 +539,17 @@ string Items::removeItem(const string id)
 }
 
 
-void Items::filterByCategory(vector<string>& rows, const string cname, vector<string>& categoryRows)
-{
-	if (rows.size() >= 4 && rows.size() % 4 == 0)
-	{
-		for (int i = 2; i < rows.size(); i += 4)
-		{
-			if (rows[i] == cname)
-			{
-				string name = rows[i - 2];
-				categoryRows.push_back(name);
-
-				string id = rows[i - 1];
-				categoryRows.push_back(id);
-
-				string category1 = rows[i];
-				categoryRows.push_back(category1);
-
-				string isRented = rows[i + 1];
-				categoryRows.push_back(isRented);
-			}
-		}
-
-		printByCategory(cname, categoryRows);
-	}
-	else
-	{
-		cout << "Tiedosto on tyhj‰ tai siin‰ olevat tiedot ovat puutteellisia.\n" << endl;
-	}
-}
-
-
-void Items::printByCategory(string categoryName, vector<string>& categoryRows)
+/* M‰‰ritell‰‰n privaatti j‰senmetodi, joka ottaa vastaan kategorian nime‰ 
+* indikoivan vakiomerkkijonon ja merkkijonoalkioista koostuvan 
+* vector-listan pass by reference -tyylill‰. Metodissa m‰‰ritell‰‰n 
+* apumuuttuja index, jonka avulla ja arvoa muuttamalla silmukassa eri 
+* m‰‰ritell‰‰n, mink‰lainen teksti tulostetaan ennen iteraatiokierroksella 
+* k‰sitelt‰v‰n alkion arvon tulostamista. For-silmukassa k‰yd‰‰n siis l‰pi 
+* parametrina v‰litetyn vectorin alkiot, jotka switch-rakenteen ja 
+* index-apumuuttujan avulla tulostetaan tavarakohtaisesti formatoituun 
+* muotoon.
+*/
+void Items::printByCategory(const string categoryName, vector<string>& categoryRows)
 {
 	int index = 0;
 
@@ -607,4 +587,65 @@ void Items::printByCategory(string categoryName, vector<string>& categoryRows)
 	}
 
 	cout << "---------------------------------\n" << endl;
+}
+
+
+/* M‰‰ritell‰‰n periytyv‰ j‰senmetodi, joka ottaa parametreina vastaan 
+* kaksi eri merkkijonoalkioista koostuvaa vectoria pass by reference -tyylill‰ 
+* sek‰ kategorian nime‰ kuvaavan vakiomerkkijonon. Jos parametrin‰ v‰litetyn 
+* rows-vektorin alkioiden lukum‰‰r‰ on nelj‰ tai suurempi ja jos lukum‰‰r‰n 
+* jakoj‰‰nnˆs on 0 eli rivit on lis‰tty vectoriin oikealla logiikalla, 
+* iteroidaan kaikki kategorian kertovat rivit l‰pi. 
+*
+* Jos parametrina v‰litetyn kategorian nimi vastaa iteraatiokierroksen alkion 
+* arvoa, lis‰t‰‰n parametrina v‰litettyyn categoryRows-vectoriin tiedot siit‰ 
+* tavarasetist‰, jonka kategoriakohta on kyseess‰. Sitten kutsutaan metodia, 
+* jossa categoryRows-vectoriin tallennetut tiedot tulostetaan formatoidussa 
+* muodossa ja jolle sen vuoksi v‰litet‰‰n parametrit categoryName ja 
+* categoryRows. 
+
+* Jos rows-parametrin alkioiden lukum‰‰r‰ ei vastaa ensimm‰isiin ehtoihin, 
+* siirryt‰‰n else-haaraan, jossa k‰ytt‰j‰lle tulostetaan virheviesti.
+*/ 
+void Items::filterByCategory(vector<string>& rows, const string categoryName, vector<string>& categoryRows)
+{
+	if (rows.size() >= 4 && rows.size() % 4 == 0)
+	{
+		/* Ensimm‰isen tavaran kategorian kertova arvo on kolmannessa alkiossa 
+		* eli indeksiss‰ 2. Seuraavan tavaran vastaava arvo on edellisest‰ 
+		* nelj‰n alkion p‰‰ss‰.
+		*/ 
+		for (int i = 2; i < rows.size(); i += 4)
+		{
+			if (rows[i] == categoryName)
+			{
+				/* Tavaran nimen kertova alkio lˆytyy kategorian kertovan 
+				 * alkion edellist‰ alkiota edelt‰v‰st‰ alkiosta:
+				 */
+				string name = rows[i - 2];
+				categoryRows.push_back(name);
+
+				/* Tavaran tunnuksen kertova alkio lˆytyy kategorian kertovaa
+				 * alkiota edelt‰v‰st‰ alkiosta:
+				 */
+				string id = rows[i - 1];
+				categoryRows.push_back(id);
+
+				string category1 = rows[i];
+				categoryRows.push_back(category1);
+
+				/* Tavaran varaustilanteen kertova alkio lˆytyy kategorian 
+				 * kertovaa alkiota seuraavasta alkiosta:
+				 */
+				string isRented = rows[i + 1];
+				categoryRows.push_back(isRented);
+			}
+		}
+
+		printByCategory(categoryName, categoryRows);
+	}
+	else
+	{
+		cout << "Tiedosto on tyhj‰ tai siin‰ olevat tiedot ovat puutteellisia.\n" << endl;
+	}
 }

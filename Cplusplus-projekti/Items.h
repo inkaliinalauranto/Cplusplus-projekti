@@ -18,7 +18,7 @@ private:
 
 	string changeRentalState(vector<string>& rows, const string id, const bool propertyState, const string emsg);
 	
-	void printByCategory(string categoryName, vector<string>& categoryRows);
+	void printByCategory(const string categoryName, vector<string>& categoryRows);
 
 protected:
 	/* Merkkijonomuotoa olevan fileName-nimisen periytyv‰n j‰senmuuttujan 
@@ -29,7 +29,7 @@ protected:
 	// Periytyv‰t j‰senmetodit:
 	void readFileToRows(vector<string>& rows);
 
-	void filterByCategory(vector<string>& rows, const string cname, vector<string>& categoryRows);
+	void filterByCategory(vector<string>& rows, const string categoryName, vector<string>& categoryRows);
 
 public:
 	// Julkisen oletusrakentajan esittely:
@@ -39,6 +39,7 @@ public:
 	~Items();
 
 	// Julkisten j‰senmetodien esittely:
+	// Esitell‰‰n listItems-metodi ylikirjoitettavaksi:
 	virtual void listItems();
 
 	string rentItem(string id);
