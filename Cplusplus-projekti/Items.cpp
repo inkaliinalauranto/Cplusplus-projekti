@@ -9,52 +9,66 @@
 using namespace std;
 
 
-/* Asetetaan oletusrakentajassa demotarkoituksessa itsem‰‰ritellyt arvot
-* items-taulukon kullekin alkiolle. M‰‰ritell‰‰n fileName-j‰senmuuttujan
-* arvoksi merkkijonomuotoinen tiedostonimi items_file.txt. Tallennetaan
+/* M‰‰ritell‰‰n oletusrakentajassa fileName-j‰senmuuttujan arvoksi 
+* merkkijonomuotoinen tiedostonimi items_file.txt. Tallennetaan
 * itemsFileForReading-muuttujaan instanssi ifstream-luokasta, jolle
 * v‰litet‰‰n parametrina fileName-muuttujaan tallennettu merkkijono.
 *
 * Ehtolausella tarkistetaan, onko itemsFileForReading-muuttuja luettavissa.
-* Jos ei, tiedostoa ei ole olemassa, jolloin items-j‰senmuuttujaan talletetut
-* alkiot luetaan fileName-muuttujan arvon nimiseen tekstitiedostoon
-* silmukassa. Lopuksi kutsutaan sek‰ tiedostoon kirjoittamiseen liittyv‰n
-* ofstream-instanssin ett‰ tiedostosta lukemiseen liittyv‰n
-* ifstream-instanssin close-metodeja.
+* Jos ei, tiedostoa ei ole olemassa, jolloin asetetaan demotarkoituksessa 
+* itsem‰‰ritellyt arvot items-taulukon kullekin alkiolle. Alkiot luetaan 
+* fileName-muuttujan arvon nimiseen tekstitiedostoon silmukassa, jos 
+* kirjoittaminen tiedostoon onnistuu. Muussa tapauksessa tulostetaan viesti 
+* virhetilanteesta.
+*
+* Lopuksi kutsutaan sek‰ tiedostoon kirjoittamiseen liittyv‰n 
+* ofstream-instanssin ett‰ tiedostosta lukemiseen liittyv‰n 
+* ifstream-instanssin close-metodeja. 
 */
 Items::Items()
 {
 	this->fileName = "items_file.txt";
 
-	ifstream itemsFileForReading = ifstream(this->fileName);
+	// Avataan lukuyhteys:
+	ifstream fileReading = ifstream(this->fileName);
 
 	/* Jos items_file.txt-tiedostoa ei viel‰ ole olemassa eli jos ohjelma
 	* ajetaan ensimm‰isen kerran, luodaan tiedosto ja lis‰t‰‰n siihen
 	* silmukassa items-taulukon alkioiden tiedot.
 	*/
-	if (!itemsFileForReading.good())
+	if (!fileReading.good())
 	{
 		this->items[0] = Item("Rossignol Xium", 1, false);
 		this->items[1] = Item("Leki HRC", 2, false);
 		this->items[2] = Item("Ficher Speedmax Skate", 3, false);
-		ofstream itemsFileForReading = ofstream(this->fileName);
 
-		/* Lis‰t‰‰n demotarkoituksessa oletusrakentajassa kolmen alkion
-		* mittaiseen items-taulukkoon kolme tavaraa:
-		*/
-		for (int i = 0; i < 3; i++)
+		// Avataan kirjoitusyhteys:
+		ofstream fileWriting = ofstream(this->fileName);
+
+		if (fileWriting.fail())
 		{
-			int id = i + 1;
-			itemsFileForReading
-				<< items[i].getName() << "\n"
-				<< items[i].getId() << "\n"
-				<< items[i].getCategory() << "\n"
-				<< items[i].getRentalState() << "\n";
+			cout << "Ohjelmassa tapahtui virhetilanne - tiedostoon ei voi kirjoittaa.\n" << endl;
 		}
-		itemsFileForReading.close();
+		else
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				int id = i + 1;
+				fileWriting
+					<< items[i].getName() << "\n"
+					<< items[i].getId() << "\n"
+					<< items[i].getCategory() << "\n"
+					<< items[i].getRentalState() << "\n";
+			}
+		}
+
+
+		// Suljetaan kirjoitusyhteys:
+		fileWriting.close();
 	}
 
-	itemsFileForReading.close();
+	// Suljetaan lukuyhteys:
+	fileReading.close();
 }
 
 
@@ -83,43 +97,6 @@ int Items::setSize(vector<string> rows)
 	}
 
 	return size;
-}
-
-
-/* Funktiolle v‰litet‰‰n parametrina merkkijonoalkioista koostuva dynaaminen
-* vector-lista pass by reference -tyylill‰ eli funktiossa parametrin arvoon
-* teht‰v‰t muutokset j‰‰v‰t voimaan parametrina v‰litetylle muuttujalle
-* funktiossa k‰ynnin j‰lkeen. Funktiossa ei siis k‰sitell‰ parametrina
-* v‰litetyst‰ muuttujasta tehty‰ kopiota vaan muuttujaa itse.
-*
-* T‰ss‰ funktiossa esitell‰‰n merkkijonomuotoa oleva muuttuja row ja
-* alustetaan fileReading-niminen instanssi ifstream-luokasta. Instanssille
-* v‰litet‰‰n parametriksi fileName-j‰senmuuttujan arvo. Jos tiedoston
-* lukeminen onnistuu eli fileReading-instanssin good-j‰senmetodi palauttaa
-* arvon true, luetaan while-silmukassa tiedoston rivit parametrina v‰litetyn
-* rows-vectorin alkioiksi.
-*
-* Muussa tapauksessa tulostetaan virheilmoitus. Lopuksi kutsutaan
-* fileReading-muuttujaan talletetun ifstream-instanssin close-metodia.
-*/
-void Items::readFileToRows(vector<string>& rows)
-{
-	string row;
-	ifstream fileReading = ifstream(this->fileName);
-
-	if (fileReading.good())
-	{
-		while (getline(fileReading, row))
-		{
-			rows.push_back(row);
-		}
-	}
-	else
-	{
-		cout << "Ohjelmassa tapahtui virhetilanne: tiedostoa ei ole olemassa.\n" << endl;
-	}
-
-	fileReading.close();
 }
 
 
@@ -199,12 +176,12 @@ string Items::changeRentalState(vector<string>& rows, const string id, const boo
 			{
 				// Tavaran nimi on tunnuksen indeksi‰ edelt‰v‰ss‰ indeksiss‰: 
 				indexOfItemName = i - 1;
-				/* Tavaran vuokrauksesta kertova tilan indeksi on kahden
+				/* Tavaran vuokrauksesta kertovan tilan indeksi on kahden
 				indeksin p‰‰ss‰ tunnuksen indeksist‰:
 				*/
 				indexOfValueToBeChanged = i + 2;
 				/* Jos parametrin‰ v‰litetty id lˆytyy, vaihdetaan siit‰
-				kertovan totuusarvo muuttujan arvo todeksi:
+				kertovan totuusarvomuuttujan arvo todeksi:
 				*/
 				isIdInFile = true;
 				break;
@@ -255,6 +232,154 @@ string Items::changeRentalState(vector<string>& rows, const string id, const boo
 	else
 	{
 		return itemName;
+	}
+}
+
+
+/* M‰‰ritell‰‰n privaatti j‰senmetodi, joka ottaa vastaan kategorian nime‰
+* indikoivan vakiomerkkijonon ja merkkijonoalkioista koostuvan
+* vector-listan pass by reference -tyylill‰. Metodissa m‰‰ritell‰‰n
+* apumuuttuja index, jonka avulla ja arvoa silmukassa muuttamalla 
+* m‰‰ritell‰‰n, mink‰lainen teksti tulostetaan ennen iteraatiokierroksella
+* k‰sitelt‰v‰n alkion arvon tulostamista. For-silmukassa k‰yd‰‰n siis l‰pi
+* parametrina v‰litetyn vectorin alkiot, jotka switch-rakenteen ja
+* index-apumuuttujan avulla tulostetaan formatoituun muotoon.
+*/
+void Items::printByCategory(const string categoryName, vector<string>& categoryRows)
+{
+	int index = 0;
+
+	cout << "-- Tavarat kategoriassa " << categoryName << " --\n " << endl;
+	for (int i = 0; i < categoryRows.size(); i++)
+	{
+		switch (index)
+		{
+		case 0:
+			cout << "Tavaran nimi: " << categoryRows[i] << endl;
+			break;
+
+		case 1:
+			cout << "Tavaran id: " << categoryRows[i] << endl;
+			break;
+
+		case 2:
+			cout << "Tavaran kategoria: " << categoryRows[i] << endl;
+			break;
+
+		case 3:
+			cout << "Tavaran vuokraustilanne: ";
+			if (stoi(categoryRows[i]) == 1)
+			{
+				cout << "varattu\n" << endl;
+			}
+			else
+			{
+				cout << "vapaa\n" << endl;
+			}
+			index = -1;
+			break;
+		}
+		index++;
+	}
+
+	cout << "---------------------------------\n" << endl;
+}
+
+
+/* Funktiolle v‰litet‰‰n parametrina merkkijonoalkioista koostuva dynaaminen
+* vector-lista pass by reference -tyylill‰ eli funktiossa parametrin arvoon
+* teht‰v‰t muutokset j‰‰v‰t voimaan parametrina v‰litetylle muuttujalle
+* funktiossa k‰ynnin j‰lkeen. Funktiossa ei siis k‰sitell‰ parametrina
+* v‰litetyst‰ muuttujasta tehty‰ kopiota vaan muuttujaa itse.
+*
+* T‰ss‰ funktiossa esitell‰‰n merkkijonomuotoa oleva muuttuja row ja
+* alustetaan fileReading-niminen instanssi ifstream-luokasta. Instanssille
+* v‰litet‰‰n parametriksi fileName-j‰senmuuttujan arvo. Jos tiedoston
+* lukeminen onnistuu eli fileReading-instanssin good-j‰senmetodi palauttaa
+* arvon true, luetaan while-silmukassa tiedoston rivit parametrina v‰litetyn
+* rows-vectorin alkioiksi.
+*
+* Muussa tapauksessa tulostetaan virheilmoitus. Lopuksi kutsutaan
+* fileReading-muuttujaan talletetun ifstream-instanssin close-metodia.
+*/
+void Items::readFileToRows(vector<string>& rows)
+{
+	string row;
+	ifstream fileReading = ifstream(this->fileName);
+
+	if (fileReading.good())
+	{
+		while (getline(fileReading, row))
+		{
+			rows.push_back(row);
+		}
+	}
+	else
+	{
+		cout << "Ohjelmassa tapahtui virhetilanne: tiedostoa ei ole olemassa.\n" << endl;
+	}
+
+	fileReading.close();
+}
+
+
+/* M‰‰ritell‰‰n periytyv‰ j‰senmetodi, joka ottaa parametreina vastaan
+* kaksi eri merkkijonoalkioista koostuvaa vectoria pass by reference -tyylill‰
+* sek‰ kategorian nime‰ kuvaavan vakiomerkkijonon. Jos parametrin‰ v‰litetyn
+* rows-vektorin alkioiden lukum‰‰r‰ on nelj‰ tai suurempi ja jos lukum‰‰r‰n
+* jakoj‰‰nnˆs on 0 eli rivit on lis‰tty vectoriin oikealla logiikalla,
+* iteroidaan kaikki kategorian kertovat rivit l‰pi.
+*
+* Jos parametrina v‰litetyn kategorian nimi vastaa iteraatiokierroksen alkion
+* arvoa, lis‰t‰‰n parametrina v‰litettyyn categoryRows-vectoriin tiedot siit‰
+* tavarasetist‰, jonka kategoriakohta on kyseess‰. Sitten kutsutaan metodia,
+* jossa categoryRows-vectoriin tallennetut tiedot tulostetaan formatoidussa
+* muodossa ja jolle sen vuoksi v‰litet‰‰n parametrit categoryName ja
+* categoryRows.
+
+* Jos rows-parametrin alkioiden lukum‰‰r‰ ei vastaa ensimm‰isiin ehtoihin,
+* siirryt‰‰n else-haaraan, jossa k‰ytt‰j‰lle tulostetaan virheviesti.
+*/
+void Items::filterByCategory(vector<string>& rows, const string categoryName, vector<string>& categoryRows)
+{
+	if (rows.size() >= 4 && rows.size() % 4 == 0)
+	{
+		/* Ensimm‰isen tavaran kategorian kertova arvo on kolmannessa alkiossa
+		* eli indeksiss‰ 2. Seuraavan tavaran vastaava arvo on edellisest‰
+		* nelj‰n alkion p‰‰ss‰.
+		*/
+		for (int i = 2; i < rows.size(); i += 4)
+		{
+			if (rows[i] == categoryName)
+			{
+				/* Tavaran nimen kertova alkio lˆytyy kategorian kertovan
+				 * alkion edellist‰ alkiota edelt‰v‰st‰ alkiosta:
+				 */
+				string name = rows[i - 2];
+				categoryRows.push_back(name);
+
+				/* Tavaran tunnuksen kertova alkio lˆytyy kategorian kertovaa
+				 * alkiota edelt‰v‰st‰ alkiosta:
+				 */
+				string id = rows[i - 1];
+				categoryRows.push_back(id);
+
+				string category1 = rows[i];
+				categoryRows.push_back(category1);
+
+				/* Tavaran varaustilanteen kertova alkio lˆytyy kategorian
+				 * kertovaa alkiota seuraavasta alkiosta:
+				 */
+				string isRented = rows[i + 1];
+				categoryRows.push_back(isRented);
+			}
+		}
+
+		printByCategory(categoryName, categoryRows);
+	}
+	else
+	{
+		cout << "Tiedosto on tyhj‰ tai siin‰ olevat tiedot ovat puutteellisia.\n" << endl;
 	}
 }
 
@@ -381,6 +506,7 @@ string Items::revertItem(string id)
 	bool propertyState = false;
 	string errorMessage = "Tavara on jo palautettu.\n";
 
+	// Varsinainen palauttaminen:
 	return changeRentalState(rows, id, propertyState, errorMessage);
 }
 
@@ -392,13 +518,12 @@ string Items::revertItem(string id)
 * Parametrin ios_base::app | ios_base::out avulla tiedoston loppuun pystyt‰‰n
 * lis‰‰m‰‰n teksti‰.
 *
-* Jos itemsFailForReading-muuttujaan talletetun instanssin fail-metodin
-* palauttama arvo ei ole tosi, kirjoitetaan lis‰t‰‰n tiedostoon
-* nelj‰ uutta rivi‰ eli uuden tavaran tiedot, jotka saadaan v‰litetyn
-* item-parametrin getter-metodeilla. Lis‰ksi kutsutaan
-* itemFileForReading-muuttujassa olevan instanssin close-metodia ja poistutaan
-* funktiosta siten, ett‰ paluuarvoksi asetetaan itemin tunnus. Muussa
-* tapauksessa tulostetaan virheviesti ja palautetaan -1 merkkin‰ siit‰,
+* Jos fileReading-muuttujaan talletetun instanssin fail-metodin palauttama 
+* arvo ei ole tosi, lis‰t‰‰n tiedostoon nelj‰ uutta rivi‰ eli uuden tavaran 
+* tiedot, jotka saadaan v‰litetyn item-parametrin getter-metodeilla. Lis‰ksi 
+* kutsutaan fileReading-muuttujassa olevan instanssin close-metodia ja 
+* poistutaan funktiosta siten, ett‰ paluuarvoksi asetetaan itemin tunnus. 
+* Muussa tapauksessa tulostetaan virheviesti ja palautetaan -1 merkkin‰ siit‰, 
 * ettei tavaran lis‰‰minen onnistu.
 */
 size_t Items::appendItem(Item item)
@@ -408,22 +533,22 @@ size_t Items::appendItem(Item item)
 	* ios_base::app | ios_base::out. Tekstiksi lis‰t‰‰n uuden tavaran
 	* tiedot, jotka saadaan v‰litetyn item-parametrin getter-metodeilla.
 	*/
-	ofstream itemsFileForReading = ofstream(fileName, ios_base::app | ios_base::out);
+	ofstream fileReading = ofstream(fileName, ios_base::app | ios_base::out);
 
-	if (itemsFileForReading.fail())
+	if (fileReading.fail())
 	{
 		cout << "Ohjelmassa tapahtui virhetilanne - tiedostoon ei voi kirjoittaa.\n" << endl;
 		return -1;
 	}
 	else
 	{
-		itemsFileForReading
+		fileReading
 			<< item.getName() << "\n"
 			<< item.getId() << "\n"
 			<< item.getCategory() << "\n"
 			<< item.getRentalState() << "\n";
 
-		itemsFileForReading.close();
+		fileReading.close();
 
 		return item.getId();
 	}
@@ -450,7 +575,7 @@ size_t Items::appendItem(Item item)
 *
 * Sen j‰lkeen iteroidaan parametrina v‰litetyn rows-muuttujan kaikki alkiot
 * l‰pi. Kirjoitetaan iteroitava alkio tiedostoon, jos iteraatiokierros ei
-* vastaa yhteenk‰‰n edellisess‰ silmukassa tallennettujen muuttujien, arvoja.
+* vastaa yhteenk‰‰n edellisess‰ silmukassa p‰ivitetyist‰ muuttujien arvoista. 
 * Jos iteraatiokierroksen numero sen sijaan vastaa aiemmassa silmukassa
 * firstRemovableIndex-apumuuttujaan talletettua indeksi‰, annetaan
 * itemName-apumuuttujan arvoksi alkion arvo rows-vectorissa ko. indeksin
@@ -479,7 +604,7 @@ string Items::removeItem(const string id)
 	* rows-muuttujassa viimeisen alkion indeksi on aina lukum‰‰r‰ - 1.
 	*/
 	int firstRemovableIndex = rowsSize;
-	/* Alustetaan myˆs kolmea muuta poistettavaa arvoa osoittavien indeksien
+	/* Alustetaan myˆs kolmea muuta poistettavaa arvoa osoittavan indeksin
 	* arvoiksi indeksit, joita ei varmasti lˆydy rows-muuttujasta.
 	*/
 	int secondRemovableIndex = rowsSize + 1;
@@ -535,117 +660,5 @@ string Items::removeItem(const string id)
 	else
 	{
 		return itemName;
-	}
-}
-
-
-/* M‰‰ritell‰‰n privaatti j‰senmetodi, joka ottaa vastaan kategorian nime‰ 
-* indikoivan vakiomerkkijonon ja merkkijonoalkioista koostuvan 
-* vector-listan pass by reference -tyylill‰. Metodissa m‰‰ritell‰‰n 
-* apumuuttuja index, jonka avulla ja arvoa muuttamalla silmukassa eri 
-* m‰‰ritell‰‰n, mink‰lainen teksti tulostetaan ennen iteraatiokierroksella 
-* k‰sitelt‰v‰n alkion arvon tulostamista. For-silmukassa k‰yd‰‰n siis l‰pi 
-* parametrina v‰litetyn vectorin alkiot, jotka switch-rakenteen ja 
-* index-apumuuttujan avulla tulostetaan tavarakohtaisesti formatoituun 
-* muotoon.
-*/
-void Items::printByCategory(const string categoryName, vector<string>& categoryRows)
-{
-	int index = 0;
-
-	cout << "-- Tavarat kategoriassa " << categoryName << " --\n " << endl;
-	for (int i = 0; i < categoryRows.size(); i++)
-	{
-		switch (index)
-		{
-		case 0:
-			cout << "Tavaran nimi: " << categoryRows[i] << endl;
-			break;
-
-		case 1:
-			cout << "Tavaran id: " << categoryRows[i] << endl;
-			break;
-
-		case 2:
-			cout << "Tavaran kategoria: " << categoryRows[i] << endl;
-			break;
-
-		case 3:
-			cout << "Tavaran vuokraustilanne: ";
-			if (stoi(categoryRows[i]) == 1)
-			{
-				cout << "varattu\n" << endl;
-			}
-			else
-			{
-				cout << "vapaa\n" << endl;
-			}
-			index = -1;
-			break;
-		}
-		index++;
-	}
-
-	cout << "---------------------------------\n" << endl;
-}
-
-
-/* M‰‰ritell‰‰n periytyv‰ j‰senmetodi, joka ottaa parametreina vastaan 
-* kaksi eri merkkijonoalkioista koostuvaa vectoria pass by reference -tyylill‰ 
-* sek‰ kategorian nime‰ kuvaavan vakiomerkkijonon. Jos parametrin‰ v‰litetyn 
-* rows-vektorin alkioiden lukum‰‰r‰ on nelj‰ tai suurempi ja jos lukum‰‰r‰n 
-* jakoj‰‰nnˆs on 0 eli rivit on lis‰tty vectoriin oikealla logiikalla, 
-* iteroidaan kaikki kategorian kertovat rivit l‰pi. 
-*
-* Jos parametrina v‰litetyn kategorian nimi vastaa iteraatiokierroksen alkion 
-* arvoa, lis‰t‰‰n parametrina v‰litettyyn categoryRows-vectoriin tiedot siit‰ 
-* tavarasetist‰, jonka kategoriakohta on kyseess‰. Sitten kutsutaan metodia, 
-* jossa categoryRows-vectoriin tallennetut tiedot tulostetaan formatoidussa 
-* muodossa ja jolle sen vuoksi v‰litet‰‰n parametrit categoryName ja 
-* categoryRows. 
-
-* Jos rows-parametrin alkioiden lukum‰‰r‰ ei vastaa ensimm‰isiin ehtoihin, 
-* siirryt‰‰n else-haaraan, jossa k‰ytt‰j‰lle tulostetaan virheviesti.
-*/ 
-void Items::filterByCategory(vector<string>& rows, const string categoryName, vector<string>& categoryRows)
-{
-	if (rows.size() >= 4 && rows.size() % 4 == 0)
-	{
-		/* Ensimm‰isen tavaran kategorian kertova arvo on kolmannessa alkiossa 
-		* eli indeksiss‰ 2. Seuraavan tavaran vastaava arvo on edellisest‰ 
-		* nelj‰n alkion p‰‰ss‰.
-		*/ 
-		for (int i = 2; i < rows.size(); i += 4)
-		{
-			if (rows[i] == categoryName)
-			{
-				/* Tavaran nimen kertova alkio lˆytyy kategorian kertovan 
-				 * alkion edellist‰ alkiota edelt‰v‰st‰ alkiosta:
-				 */
-				string name = rows[i - 2];
-				categoryRows.push_back(name);
-
-				/* Tavaran tunnuksen kertova alkio lˆytyy kategorian kertovaa
-				 * alkiota edelt‰v‰st‰ alkiosta:
-				 */
-				string id = rows[i - 1];
-				categoryRows.push_back(id);
-
-				string category1 = rows[i];
-				categoryRows.push_back(category1);
-
-				/* Tavaran varaustilanteen kertova alkio lˆytyy kategorian 
-				 * kertovaa alkiota seuraavasta alkiosta:
-				 */
-				string isRented = rows[i + 1];
-				categoryRows.push_back(isRented);
-			}
-		}
-
-		printByCategory(categoryName, categoryRows);
-	}
-	else
-	{
-		cout << "Tiedosto on tyhj‰ tai siin‰ olevat tiedot ovat puutteellisia.\n" << endl;
 	}
 }
