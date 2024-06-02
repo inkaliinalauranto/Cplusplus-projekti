@@ -1,42 +1,45 @@
-# Cplusplus-projekti - ohjeet
+# Cplusplus-projekti
 
-# Ohjeet
+## Projektin kuvaus:
 
-# Projektin kuvaus:
+Projektin lopputuote on yksinkertainen hiihtotarvikkeiden yllï¿½pitojï¿½rjestelmï¿½, jossa tavarat voi listata kokonaisuudessaan tai kategorioittain, niitï¿½ voi vuokrata ja palauttaa sekï¿½ lisï¿½tï¿½ ja poistaa. Kï¿½yttï¿½liittymï¿½nï¿½ projektissa toimii komentokehoiterajapinta, joka ohjaa kï¿½yttï¿½jï¿½ï¿½ koko jï¿½rjestelmï¿½n kï¿½ynnissï¿½oloajan.
 
-Projektin lopputuote on yksinkertainen hiihtotarvikkeiden ylläpitojärjestelmä, jossa tavarat voi listata kokonaisuudessaan tai kategorioittain, niitä voi vuokrata ja palauttaa sekä lisätä ja poistaa. Käyttöliittymänä projektissa toimii komentokehoiterajapinta, joka ohjaa käyttäjää koko järjestelmän käynnissäoloajan.
+Koodin puolella on Cplusplus-projekti.cpp-niminen pï¿½ï¿½ohjelma, jossa hyï¿½dynnetï¿½ï¿½n Menu-luokasta tehtyï¿½ instanssia. Menu-luokan lisï¿½ksi ohjelmaan kuuluvat Item-luokka, Items-luokka, jossa tehdï¿½ï¿½n instansseja Item-luokasta, sekï¿½ Items-luokasta periytyvï¿½t Others-, Poles-, SkiBoots- ja Skis-luokat. 
 
-Koodin puolella on Cplusplus-projekti.cpp-niminen pääohjelma, jossa hyödynnetään Menu-luokasta tehtyä instanssia. Menu-luokan lisäksi ohjelmaan kuuluvat Item-luokka, Items-luokka, jossa tehdään instansseja Item-luokasta, sekä Items-luokasta periytyvät Others-, Poles-, SkiBoots- ja Skis-luokat. 
+Jokaisessa luokassa koodi on jaettu pienempiin osiin jï¿½senfunktioiksi. Lisï¿½ksi periytyvissï¿½ luokissa hyï¿½dynnetï¿½ï¿½n perittyjï¿½ funktioita sekï¿½ ylikirjoitettavaa perittyï¿½ funktiota. Useassa luokassa kï¿½ytetï¿½ï¿½n C++ -kielen standardikirjastoja, kuten vector-, string-, iostream- ja fstream-kirjastoja. Ohjelma on kommentoitu yksityiskohtaisesti.
 
-Jokaisessa luokassa koodi on jaettu pienempiin osiin jäsenfunktioiksi. Lisäksi periytyvissä luokissa hyödynnetään perittyjä funktioita sekä ylikirjoitettavaa perittyä funktiota. Useassa luokassa käytetään C++ -kielen standardikirjastoja, kuten vector-, string-, iostream- ja fstream-kirjastoja. Ohjelma on kommentoitu yksityiskohtaisesti.
+## Projektin tarkasteleminen Visual Studio Community 2022 -editorilla (Windows-kï¿½yttï¿½jï¿½rjestelmï¿½llï¿½):
 
-# Projektin tarkasteleminen Visual Studio Community 2022 -editorilla (Windows-käyttöjärjestelmällä):
+- Jos kï¿½ytï¿½ QT Creatoria, siirry seuraavan linkin takana olevaan repositorioon ja seuraa tï¿½mï¿½n repositorion README-tiedostosta lï¿½ytyviï¿½ ohjeita: www..
 
-- Jos käytä QT Creatoria, siirry seuraavan linkin takana olevaan repositorioon ja seuraa tämän repositorion README-tiedostosta löytyviä ohjeita: www..
-
-- Kopioi leikepöydälle projektin URL napista "<> Code" avautuvan pikku ikkunan HTTPS-otsikon alapuolella olevasta kentästä.
+- Kopioi leikepï¿½ydï¿½lle projektin URL napista "<> Code" avautuvan pikku ikkunan HTTPS-otsikon alapuolella olevasta kentï¿½stï¿½:
 
 ![alt text](ohjekuva-1.png)
 
-- Avaa Visual Studio Community 2022 ja valitse oikeasta sivusta Get Started -otsikon alta "Clone a repository".
+
+- Avaa Visual Studio Community 2022 ja valitse oikeasta sivusta Get Started -otsikon alta "Clone a repository":
 
 ![alt text](ohjekuva-2.png)
 
-- Liitä leikepöydälle kopioitu URL-osoite Clone a repository -otsikolla avautuneen ikkunan Repository location -kenttään. Path-kenttä täyttyy automaattisesti. Paina sen jälkeen oikeasta alakulmasta nappia Clone.
+
+- Liitï¿½ leikepï¿½ydï¿½lle kopioitu URL-osoite Clone a repository -otsikolla avautuneen ikkunan Repository location -kenttï¿½ï¿½n. Path-kenttï¿½ tï¿½yttyy automaattisesti. Paina sen jï¿½lkeen oikeasta alakulmasta nappia Clone:
 
 ![alt text](ohjekuva-3.png)
 
-- Avautuvasta projekti-ikkunasta pääset tutkimaan mm. lähde- ja otsikkotiedostoja Solution Explorerin kautta laajentamalla Cplusplus-projekti-valikon nuolen kuvasta. Jos Solution Explorer ei aukea valmiiksi, sen saa auki joko näppäin yhdistelmällä Ctrl + Alt + L tai ylävalikon kautta painamalla View-kohtaa. Klikkaa valikon ensimmäistä vaihtoehtoa eli Solution Exploreria.
+
+- Avautuvasta projekti-ikkunasta pï¿½ï¿½set tutkimaan mm. lï¿½hde- ja otsikkotiedostoja Solution Explorerin kautta laajentamalla Cplusplus-projekti-valikon nuolen kuvasta. Jos Solution Explorer ei aukea valmiiksi, sen saa auki joko nï¿½ppï¿½in yhdistelmï¿½llï¿½ Ctrl + Alt + L tai ylï¿½valikon kautta painamalla View-kohtaa. Klikkaa valikon ensimmï¿½istï¿½ vaihtoehtoa eli Solution Exploreria:
 
 ![alt text](ohjekuva-4.png)
 
-- Otsikko- ja lähdetiedostot löytyvät kansioiden Header Files ja Source Files alta. Tiedostoja tuplaklikkaamalla saa sen avattua editoriin.
-- Projektin saa ajettua vihreästä nuolisymbolista, jonka vieressä lukee "Local Windows Debugger", tai vaihtoehtoisesti Ctrl + F5 -näppäinyhdistelmällä.
+
+- Otsikko- ja lï¿½hdetiedostot lï¿½ytyvï¿½t kansioiden Header Files ja Source Files alta. Tiedostoja tuplaklikkaamalla saa sen avattua editoriin.
+- Projektin saa ajettua vihreï¿½stï¿½ nuolisymbolista, jonka vieressï¿½ lukee "Local Windows Debugger", tai vaihtoehtoisesti Ctrl + F5 -nï¿½ppï¿½inyhdistelmï¿½llï¿½:
 
 ![alt text](ohjekuva-5.png)
 
-- Kun käynnistysnappia on painettu, aukeaa käyttöliittymärajapintana komentokehoite. Nyt ohjelman käyttö onnistuu komentokehoitteen kirjallista opastusta seuraamalla.
-- Kun lopetat ohjelman käytön, eli syötät valinnaksi merkin 7, muista sulkea komentokehoite. Muuten ohjelman ajaminen uudestaan ei onnistu.
+
+- Kun kï¿½ynnistysnappia on painettu, aukeaa kï¿½yttï¿½liittymï¿½rajapintana komentokehoite. Nyt ohjelman kï¿½yttï¿½ onnistuu komentokehoitteen kirjallista opastusta seuraamalla.
+- Kun lopetat ohjelman kï¿½ytï¿½n, eli syï¿½tï¿½t valinnaksi merkin 7, muista sulkea komentokehoite. Muuten ohjelman ajaminen uudestaan ei onnistu.
 
 ![alt text](ohjekuva-6.png)
 
