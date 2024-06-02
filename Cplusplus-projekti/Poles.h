@@ -3,17 +3,21 @@
 
 #include "Items.h"
 
+// Luokka perii Items-luokan:
 class Poles : public Items
 {
 private:
+	// Privaatin jäsenmuuttujan esittely:
 	string categoryName;
 
 public:
+	// Oletusrakentajan esittely:
 	Poles();
 
-	// Tuhoaja:
+	// Tuhoajan esittely:
 	~Poles();
 
+	// Julkisen jäsenmetodin esittely:
 	void listItems();
 };
 

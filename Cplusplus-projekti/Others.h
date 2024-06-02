@@ -3,17 +3,21 @@
 
 #include "Items.h"
 
+// Luokka perii Items-luokan
 class Others : public Items
 {
 private:
+	// Privaatin jäsenmuuttujan esittely:
 	string categoryName;
 
 public:
+	// Oletusrakentajan esittely:
 	Others();
 
-	// Tuhoaja:
+	// Tuhoajan esittely:
 	~Others();
 
+	// Julkisen jäsenmetodin esittely:
 	void listItems();
 };
 

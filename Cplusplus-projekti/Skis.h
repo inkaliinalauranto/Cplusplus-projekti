@@ -3,17 +3,21 @@
 
 #include "Items.h"
 
+// Luokka perii Items-luokan:
 class Skis : public Items
 {
 private:
+	// Privaatin jäsenmuuttujan esittely:
 	string categoryName;
 
 public:
+	// Oletusrakentajan esittely:
 	Skis();
 
-	// Tuhoaja:
+	// Tuhoajan esittely:
 	~Skis();
 
+	// Julkisen jäsenmetodin esittely:
 	void listItems();
 };
 
