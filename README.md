@@ -33,8 +33,8 @@ Jokaisessa luokassa koodi on jaettu pienempiin osiin jäsenfunktioiksi. Lisäksi
 
 ![alt text](ohjekuva-5.png)
 
-- Kun käynnistysnappia on painettu, aukeaa käyttöliittymärajapintana komentokehoite. Nyt ohjelman käyttö onnistuu komentokehoitteen kirjallista opastusta seuraamalla.
-- Kun poistut ohjelmasta eli syötät valinnaksi merkin 7, muista sulkea komentokehoite. Muuten ohjelman ajaminen uudestaan ei onnistu.
+- Kun käynnistysnappia on painettu, aukeaa käyttöliittymärajapintana komentokehoite. Nyt ohjelman käyttö onnistuu komentokehoitteen kirjallista opastusta seuraamalla. Muista painaa aina enter-näppäintä valitsemasi numeron/vaihtoehdon syöttämisen jälkeen.
+- Kun poistut ohjelmasta eli syötät valinnaksi numeron 7, muista sulkea komentokehoite. Muuten ohjelman ajaminen uudestaan ei onnistu.
 
 ![alt text](ohjekuva-6.png)
 
