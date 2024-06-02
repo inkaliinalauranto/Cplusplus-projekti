@@ -1,12 +1,8 @@
 #include "Menu.h"
 
 #include <iostream>
+#include <string>
 #include "Items.h"
-#include <string>
-// Poistetaan n‰m‰, kun tehty aliluokat
-#include <fstream>
-#include <string>
-
 #include "Skis.h"
 #include "SkiBoots.h"
 #include "Poles.h"
@@ -26,7 +22,48 @@ Menu::Menu()
 }
 
 
-// KOMMENTIT!!
+
+// Tuhoaja:
+Menu::~Menu() {}
+
+
+/* Metodi, jota kutsutaan luokan eri j‰senfunktioissa eri tulostusten 
+* formatointiin katkoviivalla: 
+*/
+void Menu::printEndLine()
+{
+	cout << "---------------------------\n" << endl;
+}
+
+
+/* Metodi tulostaa virheviestit ja jatko-ohjeen sek‰ palauttaa virheest‰
+* kertovan kokonaisluvun 1.
+*/
+int Menu::handleError()
+{
+	cout << "Ohjelmassa tapahtui virhetilanne - v‰‰r‰nlainen syˆte." << endl;
+	cout << "Jos haluat jatkaa, aja ohjelma uudestaan." << endl;
+	cout << "Kiitos ohjelman k‰ytˆst‰!" << endl;
+	return 1;
+}
+
+
+/* Luokan privaatti j‰senmetodi, jossa kysyt‰‰n k‰ytt‰j‰lt‰ se kategoria, 
+* jonka tavarat halutaan listata, ja toteutetaan kategorian tavaroiden 
+* listaus. K‰ytt‰j‰n antama kategoriasta kertova valinta tallenetaan funktion 
+* alussa esiteltyyn kokonaislukumuotoiseen category-muuttujaan. Jos syˆte on 0 
+* tai pienempi eli joko v‰‰r‰nlainen kokonaisluku tai kokonaan v‰‰r‰‰ 
+* tietotyyppi‰ oleva merkki, poistutaan funktiosta 
+* handleError-funktiokutsulla, joka palauttaa virheest‰ kertovan 
+* kokonaisluvun.
+* 
+* Muussa tapauksessa luodaan instanssit eri kategorioille tehdyist‰ luokista, 
+* jotka kaikki perityvy‰t Items-luokasta. Sitten switch-case-rakenteella 
+* tarkastetaan, mit‰ kategoriaa k‰ytt‰j‰n syˆte vastaa, mink‰ j‰lkeen 
+* kutsutaan kategoriaa vastaavan luokan listItems-metodia, joka on 
+* Items-luokalta perityv‰ ja lapsiluokan ylikirjoittama metodi. Lopuksi 
+* eri kategorioita kuvaavat instanssit h‰vitet‰‰n.
+*/
 int Menu::listItemsByCategory()
 {
 	int category;
@@ -41,6 +78,9 @@ int Menu::listItemsByCategory()
 	}
 	else
 	{
+		/* Luodaan instanssit Skis-, Poles-, SkiBoots- ja Others-luokista 
+		* hyˆdynt‰m‰ll‰ dynaamista kekomuistia:
+		*/
 		Skis* skis = new Skis();
 		Poles* poles = new Poles();
 		SkiBoots* skiBoots = new SkiBoots();
@@ -70,6 +110,10 @@ int Menu::listItemsByCategory()
 			break;
 		}
 
+		/* Vapautetaan dynaaminen muisti, kun instanssit tulevat 
+		* elinkaariensa p‰ihin kutsumalla instanssien tuhoajia avainsanalla 
+		* delete:
+		*/
 		delete skis;
 		delete poles;
 		delete skiBoots;
@@ -77,19 +121,6 @@ int Menu::listItemsByCategory()
 
 		return 0;
 	}
-}
-
-
-// Tuhoaja:
-Menu::~Menu() {}
-
-
-/* Metodi, jota kutsutaan ohjelman eri osuuksien tulostuksessa ja jolla
-* formatoidaan tulostusta lis‰‰m‰ll‰ katkoviiva:
-*/
-void Menu::printEndLine()
-{
-	cout << "---------------------------\n" << endl;
 }
 
 
@@ -161,18 +192,6 @@ void Menu::returnItem(Items& items)
 }
 
 
-/* Metodi tulostaa virheviestit ja jatko-ohjeen sek‰ palauttaa virheest‰
-* kertovan kokonaisluvun 1.
-*/
-int Menu::handleError()
-{
-	cout << "Ohjelmassa tapahtui virhetilanne - v‰‰r‰nlainen syˆte." << endl;
-	cout << "Jos haluat jatkaa, aja ohjelma uudestaan." << endl;
-	cout << "Kiitos ohjelman k‰ytˆst‰!" << endl;
-	return 1;
-}
-
-
 /* Funktiolle v‰litet‰‰n parametrina instanssi Items-luokasta
 * pass by reference -tyylill‰. K‰ytt‰j‰lt‰ kysyt‰‰n lis‰tt‰v‰n tavaran nimi,
 * joka tallennetaan itemName-merkkijonomuuttujaan. K‰ytt‰j‰n syˆtteen
@@ -185,7 +204,8 @@ int Menu::handleError()
 * Muussa tapauksessa k‰ytt‰j‰lt‰ kysyt‰‰n kategoria, ja kokonaislukuna
 * annettu syˆte tallennetaan category-muuttujaan. Jos syˆte on 0 tai
 * pienempi eli joko v‰‰r‰nlainen kokonaisluku tai kokonaan v‰‰r‰‰ muotoa,
-* kutsutaan handleError-j‰senmetodia.
+* poistutaan funktiosta handleError-j‰senmetodikutsulla, joka palauttaa 
+* virheest‰ kertovan kokonaisluvun.
 *
 * Muussa tapauksessa tallennetaan appendableItem-muuttujaan instanssi
 * Item-luokasta, ja instanssille syˆtet‰‰n parametreiksi itemName- ja
@@ -195,7 +215,7 @@ int Menu::handleError()
 * items-parametrin j‰senmetodin appendItem palauttama arvo. appendItem-metodin
 * parametrina v‰litet‰‰n appendableItem.
 
-* Palautettu arvo k‰sitell‰‰n ehtolausein. Jos se on pienempi kuin nolla,
+* Palautettu arvo k‰sitell‰‰n ehtolauseella. Jos se on suurempi kuin nolla,
 * tulostetaan viesti tavaran onnistuneesta lis‰‰misest‰. Lopuksi poistutaan
 * funktiosta paluuarvolla 0.
 */
@@ -230,7 +250,7 @@ int Menu::addItem(Items& items)
 	{
 		Item appendableItem = Item(itemName, category, false);
 		size_t appending = items.appendItem(appendableItem);
-		if (appending >= 0)
+		if (appending > 0)
 		{
 			cout << itemName << " lis‰tty j‰rjestelm‰‰n onnistuneesti id:ll‰ " << appending << "\n" << endl;
 		}
@@ -281,12 +301,12 @@ void Menu::deleteItem(Items& items)
 * Jokaisella silmukan kierroksella tulostetaan valikko ja pyydet‰‰n
 * k‰ytt‰j‰‰ syˆtt‰m‰‰n valinta. Valinta tallennetaan choice-j‰senmuuttujaan,
 * jonka arvoa vertaillaan lukuihin 1-7. Jos valinta t‰sm‰‰ johonkin n‰ist‰
-* luvuista, toteutetaan ko. ehtoon liittyv‰t toiminnot tai funktiokutsu, ja
-* silmukasta poistumisen j‰lkeen palautetaan kokonaisluku 0 merkkin‰
-* ohjelman onnistuneesta ajosta.
-*
-* Muussa tapauksessa palautetaan funktio, joka k‰sittelee virheellisen
-* syˆtteen ja paluttaa virheest‰ kertovan kokonaisluvun.
+* luvuista, toteutetaan ko. ehtoon liittyv‰t toiminnot tai funktiokutsu. 
+* 
+* Muussa tapauksessa palautetaan funktio, joka k‰sittelee virheellisen 
+* syˆtteen ja paluttaa virheest‰ kertovan kokonaisluvun lopettaen ohjelman. 
+* Jos ohjelma lopetetaan k‰ytt‰j‰n valinnasta, silmukasta poistumisen j‰lkeen 
+* palautetaan kokonaisluku 0 merkkin‰ ohjelman onnistuneesta ajosta. 
 */
 int Menu::start()
 {
@@ -295,13 +315,13 @@ int Menu::start()
 	while (true)
 	{
 		cout << "Mit‰ haluat tehd‰? " << endl;
-		cout << "1 -> Listaa tavarat" << endl; // Tehty
+		cout << "1 -> Listaa tavarat" << endl;
 		cout << "2 -> Listaa yksitt‰isen kategorian tavarat" << endl;
-		cout << "3 -> Vuokraa tavara" << endl; // Tehty
-		cout << "4 -> Palauta tavara" << endl; // Tehty
-		cout << "5 -> Lis‰‰ tavara" << endl; // Tehty
-		cout << "6 -> Poista tavara" << endl; // Tehty
-		cout << "7 -> Poistu j‰rjestelm‰st‰\n" << endl; // Tehty
+		cout << "3 -> Vuokraa tavara" << endl;
+		cout << "4 -> Palauta tavara" << endl;
+		cout << "5 -> Lis‰‰ tavara" << endl;
+		cout << "6 -> Poista tavara" << endl;
+		cout << "7 -> Poistu j‰rjestelm‰st‰\n" << endl;
 
 		cout << "Syˆt‰ valintasi: ";
 		cin >> this->choice;
@@ -353,10 +373,10 @@ int Menu::start()
 			{
 				return 1;
 			}
-			/* Jos metodin palauttama arvo on 2, jatketaan silmukassa seuraavaalle
-			* iteraatiokierrokselle.
+			/* Jos metodin palauttama arvo on 0 tai 2, jatketaan silmukassa 
+			* seuraavaalle iteraatiokierrokselle.
 			*/
-			else if (additionEvent == 2)
+			else
 			{
 				continue;
 			}
@@ -373,7 +393,9 @@ int Menu::start()
 		else if (this->choice == 7)
 		{
 			printEndLine();
+
 			cout << "Kiitos ohjelman k‰ytˆst‰!" << endl;
+
 			// Poistutaan silmukasta break-avainsanan avulla: 
 			break;
 		}

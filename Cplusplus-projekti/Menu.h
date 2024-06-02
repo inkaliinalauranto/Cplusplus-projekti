@@ -14,13 +14,13 @@ private:
 	// Privaattien jäsenmetodien esittely:
 	void printEndLine();
 
+	int handleError();
+
 	int listItemsByCategory();
 
 	void borrowItem(Items& items);
 
 	void returnItem(Items& items);
-
-	int handleError();
 
 	int addItem(Items& items);
 
