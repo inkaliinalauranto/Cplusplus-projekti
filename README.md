@@ -8,7 +8,7 @@ Koodin puolella on Cplusplus-projekti.cpp-niminen pääohjelma, jossa hyödynnet
 
 Jokaisessa luokassa koodi on jaettu pienempiin osiin jäsenfunktioiksi. Lisäksi periytyvissä luokissa hyödynnetään perittyjä funktioita sekä ylikirjoitettavaa perittyä funktiota. Useassa luokassa käytetään C++ -kielen standardikirjastoja, kuten vector-, string-, iostream- ja fstream-kirjastoja. Tavaratiedot esimerkiksi kirjoitetaan tiedostoon ja luetaan sieltä fstream-kirjaston ominaisuuksia hyödyntämällä. Ohjelma on kommentoitu yksityiskohtaisesti.
 
-## Projektin tarkasteleminen Visual Studio Community 2022 -editorilla (Windows-käyttöjärjestelmällä):
+## Projektin tarkasteleminen Visual Studio 2022 -editorilla (Windows-käyttöjärjestelmällä):
 
 - Jos käytät QT Creatoria, siirry seuraavan linkin takana olevaan repositorioon ja seuraa ko. repositorion README-tiedostosta löytyviä ohjeita: https://github.com/inkaliinalauranto/Cpp-projekti/tree/main
 - Visual Studio 2022 Community -version lataaminen onnistuu tarvittaessa seuraavan linkin takaa löytyviä ohjeita seuraamalla: https://github.com/inkaliinalauranto/Cplusplus-projekti/blob/master/VS-2022-installation-instructions.md
@@ -16,7 +16,7 @@ Jokaisessa luokassa koodi on jaettu pienempiin osiin jäsenfunktioiksi. Lisäksi
 
 ![alt text](ohjekuva-1.png)
 
-- Avaa Visual Studio Community 2022 ja valitse oikeasta sivusta Get Started -otsikon alta "Clone a repository":
+- Avaa Visual Studio 2022 ja valitse oikeasta sivusta Get Started -otsikon alta "Clone a repository":
 
 ![alt text](ohjekuva-2.png)
 
@@ -33,8 +33,8 @@ Jokaisessa luokassa koodi on jaettu pienempiin osiin jäsenfunktioiksi. Lisäksi
 
 ![alt text](ohjekuva-5.png)
 
-- Kun käynnistysnappia on painettu, aukeaa käyttöliittymärajapintana komentokehoite. Nyt ohjelman käyttö onnistuu komentokehoitteen kirjallista opastusta seuraamalla. Muista painaa aina enter-näppäintä valitsemasi numeron/vaihtoehdon syöttämisen jälkeen.
-- Jos ensimmäisellä ajokerralla tulee kymmeniä virheitä, jotka liittyvät esimerkiksi puolipilkku- tai aaltosulkumerkkeihin, johtunee tämä skandinaavisista merkeistä. Vaikka koodi on kirjoitettu englanniksi, on käyttöliittymä suomenkielinen. Niinpä merkkijonot voivat sisältää skandinaavisia merkkejä, jotka editori on saattanut korvata kloonausvaiheessa tai sen jälkeen muilla erikoismerkeillä. Tässä tilanteessa ohjelman voi ajaa virheistä huolimatta. Käyttöliittymä toimii siitä huolimatta, kuten pitää, vaikka skandinaavisten kirjainten tilalla olisikin muita merkkejä.
+- Kun käynnistysnappia on painettu, aukeaa käyttöliittymärajapintana komentokehoite. Nyt ohjelman käyttö onnistuu komentokehoitteen opastusta seuraamalla. Muista painaa aina enter-näppäintä valitsemasi numeron/vaihtoehdon syöttämisen jälkeen.
+- Jos ensimmäisellä ajokerralla tulee kymmeniä virheitä, jotka liittyvät esimerkiksi puolipilkku- tai aaltosulkumerkkeihin, johtunee tämä skandinaavisista merkeistä. Vaikka koodi on kirjoitettu englanniksi, on käyttöliittymä suomenkielinen. Niinpä merkkijonot voivat sisältää skandinaavisia merkkejä, jotka editori on saattanut korvata kloonausvaiheessa tai sen jälkeen muilla erikoismerkeillä. Tässä tilanteessa ohjelman voi ajaa virheistä huolimatta. Käyttöliittymä toimii, kuten pitää, vaikka skandinaavisten kirjainten tilalla olisikin muita merkkejä.
 - Kun poistut ohjelmasta eli syötät valinnaksi numeron 7, muista sulkea komentokehoite. Muuten ohjelman ajaminen uudestaan ei onnistu.
 
 ![alt text](ohjekuva-6.png)

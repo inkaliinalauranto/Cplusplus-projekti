@@ -19,7 +19,7 @@
 ![alt text](vs-ohjekuva-4.png)
 
 - Tämän jälkeen Sign in Visual Studio -otsikolla olevasta ikkunasta voi valita vaihtoehdon Skip this for now.
-- Personalize your Visual Studio Experience -ikkunasta voit valita mieleisesi väriteeman, minkä jälkeen paina Start Visual Studio:
+- Sen jälkeen ilmestyvästä Personalize your Visual Studio Experience -ikkunasta on mahdollista valita väriteema. Paina sitten Start Visual Studio -nappia:
 
 ![alt text](vs-ohjekuva-5.png)
 
