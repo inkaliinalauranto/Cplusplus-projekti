@@ -1,14 +1,12 @@
 // Cplusplus-projekti.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
 #include "Menu.h"
 
-using namespace std;
 
 int main()
 {
-	// Huomioidaan tulostuksissa skandinaaviset aakkoset:
+	// Huomioidaan tulostuksissa skandinaaviset aakkoset (VS-editorin metodi): 
 	setlocale(LC_ALL, "fi-FI");
 
 	// Luodaan instanssi Menu-luokasta:
