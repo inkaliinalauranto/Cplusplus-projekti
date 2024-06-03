@@ -11,7 +11,7 @@ Jokaisessa luokassa koodi on jaettu pienempiin osiin jäsenfunktioiksi. Lisäksi
 ## Projektin tarkasteleminen Visual Studio Community 2022 -editorilla (Windows-käyttöjärjestelmällä):
 
 - Jos käytät QT Creatoria, siirry seuraavan linkin takana olevaan repositorioon ja seuraa ko. repositorion README-tiedostosta löytyviä ohjeita: https://github.com/inkaliinalauranto/Cpp-projekti/tree/main
-- Visual Studio 2022 Community -version lataaminen onnistuu tarvittaessa seuraavan linkin takaa löytyviä ohjeita seuraamalla: 
+- Visual Studio 2022 Community -version lataaminen onnistuu tarvittaessa seuraavan linkin takaa löytyviä ohjeita seuraamalla: https://github.com/inkaliinalauranto/Cplusplus-projekti/blob/master/VS-2022-installation-instructions.md
 - Kopioi leikepöydälle repositorion URL <> Code -napista avautuvan pikku ikkunan HTTPS-otsikon alapuolella olevasta kentästä:
 
 ![alt text](ohjekuva-1.png)
